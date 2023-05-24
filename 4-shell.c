@@ -19,7 +19,7 @@
 */
 char *_strtok_r(char *string, char *delim, char **save_ptr)
 {
-	char *finish;
+	char *f;
 
 	if (string == NULL)
 		string = *save_ptr;
@@ -37,15 +37,15 @@ char *_strtok_r(char *string, char *delim, char **save_ptr)
 		return (NULL);
 	}
 
-	finish = string + _strcspn(string, delim);
-	if (*finish == '\0')
+	f = string + _strcspn(string, delim);
+	if (*f == '\0')
 	{
-		*save_ptr = finish;
+		*save_ptr = f;
 		return (string);
 	}
 
-	*finish = '\0';
-	*save_ptr = finish + 1;
+	*f = '\0';
+	*save_ptr = f + 1;
 	return (string);
 }
 
@@ -62,7 +62,7 @@ char *_strtok_r(char *string, char *delim, char **save_ptr)
 */
 int _atoi(char *s)
 {
-	unsigned int n = 0;
+	unsigned int x = 0;
 
 	do {
 		if (*s == '-')
@@ -70,11 +70,11 @@ int _atoi(char *s)
 		else if ((*s < '0' || *s > '9') && *s != '\0')
 			return (-1);
 		else if (*s >= '0'  && *s <= '9')
-			n = (n * 10) + (*s - '0');
-		else if (n > 0)
+			x = (x * 10) + (*s - '0');
+		else if (x > 0)
 			break;
 	} while (*s++);
-	return (n);
+	return (x);
 }
 
 /**
@@ -95,13 +95,13 @@ int _atoi(char *s)
 */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
-	void *temp_block;
-	unsigned int i;
+	void *t_block;
+	unsigned int x;
 
 	if (ptr == NULL)
 	{
-		temp_block = malloc(new_size);
-		return (temp_block);
+		t_block = malloc(new_size);
+		return (t_block);
 	}
 	else if (new_size == old_size)
 		return (ptr);
@@ -112,13 +112,13 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	}
 	else
 	{
-		temp_block = malloc(new_size);
-		if (temp_block != NULL)
+		t_block = malloc(new_size);
+		if (t_block != NULL)
 		{
-			for (i = 0; i < min(old_size, new_size); i++)
-				*((char *)temp_block + i) = *((char *)ptr + i);
+			for (x = 0; x < min(old_size, new_size); x++)
+				*((char *)t_block + x) = *((char *)ptr + x);
 			free(ptr);
-			return (temp_block);
+			return (t_block);
 		}
 		else
 			return (NULL);
@@ -127,11 +127,17 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * ctrl_c_handler - handles the signal raised by CTRL-C
- * @signum: signal number
- *
- * Return: void
- */
+* ctrl_c_handler - handles signal
+* @signum: signal 
+*
+*
+*
+*
+*
+*
+
+* Return: void
+*/
 void ctrl_c_handler(int signum)
 {
 	if (signum == SIGINT)
@@ -149,17 +155,17 @@ void ctrl_c_handler(int signum)
 */
 void remove_comment(char *input)
 {
-	int i = 0;
+	int x = 0;
 
-	if (input[i] == '#')
-		input[i] = '\0';
-	while (input[i] != '\0')
+	if (input[x] == '#')
+		input[x] = '\0';
+	while (input[x] != '\0')
 	{
-		if (input[i] == '#' && input[i - 1] == ' ')
+		if (input[x] == '#' && input[x - 1] == ' ')
 			break;
-		i++;
+		x++;
 	}
-	input[i] = '\0';
+	input[x] = '\0';
 }
 
 

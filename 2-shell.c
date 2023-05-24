@@ -14,31 +14,31 @@
 */
 char **tokenizer(char *input_string, char *delim)
 {
-	int num_delim = 0;
+	int delim_n = 0;
 	char **av = NULL;
-	char *token = NULL;
-	char *save_ptr = NULL;
+	char *tk = NULL;
+	char *s_ptr = NULL;
 
-	token = _strtok_r(input_string, delim, &save_ptr);
+	tk = _strtok_r(input_string, delim, &s_ptr);
 
-	while (token != NULL)
+	while (tk != NULL)
 	{
-		av = _realloc(av, sizeof(*av) * num_delim, sizeof(*av) * (num_delim + 1));
-		av[num_delim] = token;
-		token = _strtok_r(NULL, delim, &save_ptr);
-		num_delim++;
+		av = _realloc(av, sizeof(*av) * delim_n, sizeof(*av) * (delim_n + 1));
+		av[delim_n] = tk;
+		tk = _strtok_r(NULL, delim, &s_ptr);
+		delim_n++;
 	}
 
-	av = _realloc(av, sizeof(*av) * num_delim, sizeof(*av) * (num_delim + 1));
-	av[num_delim] = NULL;
+	av = _realloc(av, sizeof(*av) * delim_n, sizeof(*av) * (delim_n + 1));
+	av[delim_n] = NULL;
 
 	return (av);
 }
 
 /**
 *print - writes
-*@string: string
-*@stream: stream
+*@stri: string
+*@stre: stream
 *
 *
 *
@@ -46,12 +46,12 @@ char **tokenizer(char *input_string, char *delim)
 *
 *
 */
-void print(char *string, int stream)
+void print(char *stri, int stre)
 {
-	int i = 0;
+	int x = 0;
 
-	for (; string[i] != '\0'; i++)
-		write(stream, &string[i], 1);
+	for (; stri[x] != '\0'; x++)
+		write(stre, &stri[], 1);
 }
 
 /**
@@ -68,21 +68,21 @@ void print(char *string, int stream)
 
 void remove_newline(char *str)
 {
-	int i = 0;
+	int x = 0;
 
-	while (str[i] != '\0')
+	while (str[x] != '\0')
 	{
-		if (str[i] == '\n')
+		if (str[x] == '\n')
 			break;
-		i++;
+		x++;
 	}
-	str[i] = '\0';
+	str[x] = '\0';
 }
 
 /**
 *_strcpy - copies string
-*@source: source
-*@dest: destination
+*@src: source
+*@dst: destination
 *
 *
 *
@@ -91,18 +91,18 @@ void remove_newline(char *str)
 *
 */
 
-void _strcpy(char *source, char *dest)
+void _strcpy(char *src, char *dst)
 {
-	int i = 0;
+	int x = 0;
 
-	for (; source[i] != '\0'; i++)
-		dest[i] = source[i];
-	dest[i] = '\0';
+	for (; src[x] != '\0'; x++)
+		dest[x] = source[x];
+	dest[x] = '\0';
 }
 
 /**
 *_strlen - counts
-*@string: string
+*@str: string
 *
 *
 *
@@ -110,13 +110,13 @@ void _strcpy(char *source, char *dest)
 *
 *
 */
-int _strlen(char *string)
+int _strlen(char *str)
 {
-	int len = 0;
+	int l= 0;
 
-	if (string == NULL)
-		return (len);
-	for (; string[len] != '\0'; len++)
+	if (str == NULL)
+		return (l);
+	for (; str[l] != '\0'; l++)
 		;
-	return (len);
+	return (l);
 }

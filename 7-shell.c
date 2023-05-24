@@ -15,21 +15,21 @@
 
 int parse_command(char *command)
 {
-	int i;
-	char *internal_command[] = {"env", "exit", NULL};
+	int x;
+	char *inter_input[] = {"env", "exit", NULL};
 	char *path = NULL;
 
-	for (i = 0; command[i] != '\0'; i++)
+	for (x = 0; command[x] != '\0'; x++)
 	{
-		if (command[i] == '/')
+		if (command[x] == '/')
 			return (EXTERNAL_COMMAND);
 	}
-	for (i = 0; internal_command[i] != NULL; i++)
+	for (x = 0; inter_input[x] != NULL; x++)
 	{
-		if (_strcmp(command, internal_command[i]) == 0)
+		if (_strcmp(command, inter_input[x]) == 0)
 			return (INTERNAL_COMMAND);
 	}
-	/* @check_path - checks if a command is found in the PATH */
+
 	path = check_path(command);
 	if (path != NULL)
 	{
@@ -101,32 +101,32 @@ void execute_command(char **tokenized_command, int command_type)
 */
 char *check_path(char *command)
 {
-	char **path_array = NULL;
-	char *temp, *temp2, *path_cpy;
+	char **p_array = NULL;
+	char *c, *c1, *p_cpy;
 	char *path = _getenv("PATH");
-	int i;
+	int x;
 
 	if (path == NULL || _strlen(path) == 0)
 		return (NULL);
-	path_cpy = malloc(sizeof(*path_cpy) * (_strlen(path) + 1));
-	_strcpy(path, path_cpy);
-	path_array = tokenizer(path_cpy, ":");
-	for (i = 0; path_array[i] != NULL; i++)
+	p_cpy = malloc(sizeof(*p_cpy) * (_strlen(path) + 1));
+	_strcpy(path, p_cpy);
+	p_array = tokenizer(p_cpy, ":");
+	for (x = 0; p_array[x] != NULL; x++)
 	{
-		temp2 = _strcat(path_array[i], "/");
-		temp = _strcat(temp2, command);
-		if (access(temp, F_OK) == 0)
+		c1 = _strcat(p_array[x], "/");
+		c = _strcat(c1, command);
+		if (access(c, F_OK) == 0)
 		{
-			free(temp2);
-			free(path_array);
-			free(path_cpy);
-			return (temp);
+			free(c1);
+			free(p_array);
+			free(p_cpy);
+			return (c);
 		}
-		free(temp);
-		free(temp2);
+		free(c);
+		free(c1);
 	}
-	free(path_cpy);
-	free(path_array);
+	free(p_cpy);
+	free(p_array);
 	return (NULL);
 }
 
@@ -144,15 +144,15 @@ char *check_path(char *command)
 */
 void (*get_func(char *command))(char **)
 {
-	int i;
+	int x;
 	function_map mapping[] = {
 		{"env", env}, {"exit", quit}
 	};
 
-	for (i = 0; i < 2; i++)
+	for (x = 0; x < 2; x++)
 	{
 		if (_strcmp(command, mapping[i].command_name) == 0)
-			return (mapping[i].func);
+			return (mapping[x].func);
 	}
 	return (NULL);
 }
