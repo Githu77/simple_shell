@@ -130,14 +130,14 @@ int _strcspn(char *str1, char *str2)
 */
 
 
-char *_strchr(char *str, char ch)
+char *_strchr(char *s, char c)
 {
-	int x = 0;
+	int i = 0;
 
-	for (; str[x] != ch && str[x] != '\0'; x++)
+	for (; s[i] != c && s[i] != '\0'; i++)
 		;
-	if (str[x] == c)
-		return (str + x);
+	if (s[i] == c)
+		return (s + i);
 	else
 		return (NULL);
 }
