@@ -40,7 +40,7 @@ extern char **inp_data;
 extern char *name;
 extern int state;
 void print(char *, int);
-char **tokenizer(char *, char *);
+char **create_tokens(char *, char *);
 void remove_newline(char *);
 int _strlen(char *);
 void _strcpy(char *, char *);

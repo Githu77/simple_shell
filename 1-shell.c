@@ -24,7 +24,7 @@ void env(char **t_inp __attribute__((unused)))
 
 /**
 * quit - exits
-* @tokenized_command: command
+* @t_inp: command
 *
 *
 *

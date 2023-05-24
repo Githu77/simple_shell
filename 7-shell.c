@@ -110,7 +110,7 @@ char *check_path(char *command)
 		return (NULL);
 	p_cpy = malloc(sizeof(*p_cpy) * (_strlen(path) + 1));
 	_strcpy(path, p_cpy);
-	p_array = tokenizer(p_cpy, ":");
+	p_array = create_tokens(p_cpy, ":");
 	for (x = 0; p_array[x] != NULL; x++)
 	{
 		t2 = _strcat(p_array[x], "/");

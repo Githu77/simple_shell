@@ -22,10 +22,10 @@ void non_interactive(void)
 		{
 			remove_newline(user_inp);
 			remove_comment(user_inp);
-			inp_data = tokenizer(user_inp, ";");
+			inp_data = create_tokens(user_inp, ";");
 			for (i = 0; inp_data[i] != NULL; i++)
 			{
-				current_command = tokenizer(inp_data[i], " ");
+				current_command = create_tokens(inp_data[i], " ");
 				if (current_command[0] == NULL)
 				{
 					free(current_command);

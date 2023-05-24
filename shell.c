@@ -39,11 +39,11 @@ int main(int argc __attribute__((unused)), char **argv)
 		}
 			remove_newline(user_inp);
 			remove_comment(user_inp);
-			inp_data = tokenizer(user_inp, ";");
+			inp_data = create_tokens(user_inp, ";");
 
 		for (i = 0; inp_data[i] != NULL; i++)
 		{
-			this_inp = tokenizer(inp_data[i], " ");
+			this_inp = create_tokens(inp_data[i], " ");
 			if (this_inp[0] == NULL)
 			{
 				free(this_inp);

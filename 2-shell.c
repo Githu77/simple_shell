@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
-* tokenizer - tokenizes input
+* create_tokens - tokenizes input
 *@input_string: input
 *@delim: delimiter
 *Return: tokens
@@ -12,14 +12,14 @@
 *
 *
 */
-char **tokenizer(char *input_string, char *delim)
+char **create_tokens(char *inp_str, char *delim)
 {
 	int delim_n = 0;
 	char **av = NULL;
 	char *tk = NULL;
 	char *s_ptr = NULL;
 
-	tk = _strtok_r(input_string, delim, &s_ptr);
+	tk = _strtok_r(inp_str, delim, &s_ptr);
 
 	while (tk != NULL)
 	{
