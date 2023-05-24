@@ -1,12 +1,16 @@
 #include "shell.h"
 
 /**
- * initializer - starts executing everything
- * @current_command: try to check current token
- * @type_command: parse token
- *
- * Return: void function
- */
+* initializer - starts shell
+* @current_command: current token
+* @type_command: identify token
+*
+*
+*
+*
+*
+*
+*/
 
 void initializer(char **current_command, int type_command)
 {

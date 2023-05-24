@@ -119,8 +119,8 @@ int _strcspn(char *str1, char *str2)
 
 /**
 *_strchr - search for char
-*@str: string in question
-*@ch: char in question
+*@s: string in question
+*@c: char in question
 *Return: position or NULL
 *
 *
