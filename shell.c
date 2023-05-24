@@ -26,11 +26,11 @@ int main(int argc __attribute__((unused)), char **argv)
 	int i, inp_type = 0;
 	size_t n = 0;
 
-	signal(SIGINT, ctrl_c_handler);
+	signal(SIGINT, handle_signal);
 	name = argv[0];
 	while (1)
 	{
-		non_interactive();
+		handle_no_input();
 		print(" ($) ", STDOUT_FILENO);
 		if (getline(&user_inp, &n, stdin) == -1)
 		{

@@ -2,13 +2,15 @@
 
 
 /**
- *_strtok_r - tokenizes a string
- *@string: string to be tokenized
- *@delim: delimiter to be used to tokenize the string
- *@save_ptr: pointer to be used to keep track of the next token
- *
- *Return: The next available token
- */
+*_strtok_r - creates tokens
+*@str: string in question
+*@delimeter: delimeter to tokenize
+*@s_ptr: pointer to track tokens
+*Return: next token
+*
+*
+*
+*/
 char *_strtok_r(char *string, char *delim, char **save_ptr)
 {
 	char *finish;
@@ -42,11 +44,16 @@ char *_strtok_r(char *string, char *delim, char **save_ptr)
 }
 
 /**
- * _atoi - changes a string to an integer
- * @s: the string to be changed
- *
- * Return: the converted int
- */
+* _atoi - string to integer
+* @s: string
+* Return: int
+*
+*
+*
+*
+*
+*
+*/
 int _atoi(char *s)
 {
 	unsigned int n = 0;
@@ -65,13 +72,17 @@ int _atoi(char *s)
 }
 
 /**
- * _realloc - reallocates a memory block
- * @ptr: pointer to the memory previously allocated with a call to malloc
- * @old_size: size of ptr
- * @new_size: size of the new memory to be allocated
- *
- * Return: pointer to the address of the new memory block
- */
+* _realloc - reallocates memory
+* @ptr: pointer to previous location
+* @size1: size of ptr
+* @size2: size of the new memory to be allocated
+* Return: pointer to address
+*
+*
+*
+*
+*
+*/
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	void *temp_block;
@@ -111,7 +122,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
  *
  * Return: void
  */
-void ctrl_c_handler(int signum)
+void handle_signal(int signum)
 {
 	if (signum == SIGINT)
 		print("\n($) ", STDIN_FILENO);

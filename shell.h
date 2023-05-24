@@ -58,7 +58,7 @@ char *_strchr(char *, char);
 char *_strtok_r(char *, char *, char **);
 int _atoi(char *);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-void ctrl_c_handler(int);
+void handle_signal(int);
 void remove_comment(char *);
 
 /*utils*/
@@ -73,7 +73,7 @@ void env(char **);
 void quit(char **);
 
 /*main*/
-extern void non_interactive(void);
+extern void handle_no_input()(void);
 extern void initializer(char **current_command, int type_command);
 
 #endif /*SHELL_H*/
