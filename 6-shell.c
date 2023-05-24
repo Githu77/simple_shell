@@ -20,8 +20,8 @@ void non_interactive(void)
 	{
 		while (getline(&user_inp, &n, stdin) != -1)
 		{
-			remove_newline(user_inp);
-			remove_comment(user_inp);
+			delete_nl(user_inp);
+			delete_comm(user_inp);
 			inp_data = create_tokens(user_inp, ";");
 			for (i = 0; inp_data[i] != NULL; i++)
 			{

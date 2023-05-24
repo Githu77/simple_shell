@@ -66,7 +66,7 @@ void print(char *stri, int stre)
 *
 */
 
-void remove_newline(char *str)
+void delete_nl(char *str)
 {
 	int x = 0;
 

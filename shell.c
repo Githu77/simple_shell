@@ -37,8 +37,8 @@ int main(int argc __attribute__((unused)), char **argv)
 			free(user_inp);
 			exit(state);
 		}
-			remove_newline(user_inp);
-			remove_comment(user_inp);
+			delete_nl(user_inp);
+			delete_comm(user_inp);
 			inp_data = create_tokens(user_inp, ";");
 
 		for (i = 0; inp_data[i] != NULL; i++)

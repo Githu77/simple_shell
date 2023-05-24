@@ -93,31 +93,31 @@ int _atoi(char *s)
 *
 *
 */
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+void *_realloc(void *p, unsigned int size1, unsigned int size2)
 {
 	void *t_block;
 	unsigned int x;
 
-	if (ptr == NULL)
+	if (p == NULL)
 	{
-		t_block = malloc(new_size);
+		t_block = malloc(size2);
 		return (t_block);
 	}
-	else if (new_size == old_size)
-		return (ptr);
-	else if (new_size == 0 && ptr != NULL)
+	else if (size2 == size1)
+		return (p);
+	else if (size2 == 0 && p != NULL)
 	{
-		free(ptr);
+		free(p);
 		return (NULL);
 	}
 	else
 	{
-		t_block = malloc(new_size);
+		t_block = malloc(size2);
 		if (t_block != NULL)
 		{
-			for (x = 0; x < min(old_size, new_size); x++)
-				*((char *)t_block + x) = *((char *)ptr + x);
-			free(ptr);
+			for (x = 0; x < min(size1, size2); x++)
+				*((char *)t_block + x) = *((char *)p + x);
+			free(p);
 			return (t_block);
 		}
 		else
@@ -153,19 +153,19 @@ void ctrl_c_handler(int signum)
 *
 *
 */
-void remove_comment(char *input)
+void delete_comm(char *inp)
 {
 	int x = 0;
 
-	if (input[x] == '#')
-		input[x] = '\0';
-	while (input[x] != '\0')
+	if (inp[x] == '#')
+		inp[x] = '\0';
+	while (inp[x] != '\0')
 	{
-		if (input[x] == '#' && input[x - 1] == ' ')
+		if (inp[x] == '#' && inp[x - 1] == ' ')
 			break;
 		x++;
 	}
-	input[x] = '\0';
+	inp[x] = '\0';
 }
 
 

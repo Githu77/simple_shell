@@ -22,11 +22,16 @@
 #define min(x, y) (((x) < (y)) ? (x) : (y))
 
 /**
- *struct map - a struct that maps a command name to a function 
- *
- *@command_name: name of the command
- *@func: the function that executes the command
- */
+*struct map - struct
+*@command_name: command
+*@func: executable
+*
+*
+*
+*
+*
+*
+*/
 
 typedef struct map
 {
@@ -41,7 +46,7 @@ extern char *name;
 extern int state;
 void print(char *, int);
 char **create_tokens(char *, char *);
-void remove_newline(char *);
+void delete_nl(char *);
 int _strlen(char *);
 void _strcpy(char *, char *);
 int _strcmp(char *, char *);
@@ -53,7 +58,7 @@ char *_strtok_r(char *, char *, char **);
 int _atoi(char *);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void ctrl_c_handler(int);
-void remove_comment(char *);
+void delete_comm(char *);
 int parse_command(char *);
 void execute_command(char **, int);
 char *check_path(char *);
