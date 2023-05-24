@@ -11,15 +11,12 @@
 */
 
 
-void print(const char *str, int fd)
+void print(char *str, int fd)
 {
-    const char *ptr = str;
+	int x = 0;
 
-    while (*ptr != '\0')
-    {
-        write(fd, ptr, 1);
-        ptr++;
-    }
+	for (; str[x] != '\0'; x++)
+		write(fd, &str[x], 1);
 }
 
 /**
@@ -34,17 +31,15 @@ void print(const char *str, int fd)
 
 void delete_inp(char *str)
 {
-    char *ptr = str;
+	int  = 0;
 
-    while (*ptr != '\0')
-    {
-        if (*ptr == '\n')
-        {
-            *ptr = '\0';
-            break;
-        }
-        ptr++;
-    }
+	while (str[x] != '\0')
+	{
+		if (str[x] == '\n')
+			break;
+		x++;
+	}
+	str[x] = '\0';
 }
 
 
@@ -62,18 +57,13 @@ void delete_inp(char *str)
 *
 */
 
-void _strcpy(char *dest, const char *src)
+void _strcpy(char *dest, const *src)
 {
-    char *ptr_dest = dest;
+	int x = 0;
 
-    while (*src != '\0')
-    {
-        *ptr_dest = *src;
-        ptr_dest++;
-        src++;
-    }
-
-    *ptr_dest = '\0';
+	for (; src[x] != '\0'; x++)
+		dest[x] = src[x];
+	dest[x] = '\0';
 }
 
 
@@ -90,17 +80,14 @@ void _strcpy(char *dest, const char *src)
 *
 */
 
-size_t _strlen(const char *str)
+int _strlen(char *str)
 {
-    const char *ptr = str;
-    size_t length = 0;
+    int x = 0;
 
-    while (*ptr != '\0')
-    {
-        length++;
-        ptr++;
-    }
-
-    return (length);
+	if (str == NULL)
+		return (x);
+	for (; str[x] != '\0'; x++)
+		;
+	return (x);
 }
 
