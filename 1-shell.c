@@ -11,7 +11,7 @@
 *
 */
 
-void env(char **tokenized_command __attribute__((unused)))
+void env(char **t_inp __attribute__((unused)))
 {
 	int x;
 
@@ -33,34 +33,34 @@ void env(char **tokenized_command __attribute__((unused)))
 *
 */
 
-void quit(char **tokenized_command)
+void quit(char **t_inp)
 {
 	int n_token = 0, args;
 
-	for (; tokenized_command[n_token] != NULL; n_token++)
+	for (; t_inp[n_token] != NULL; n_token++)
 		;
 	if (n_token == 1)
 	{
-		free(tokenized_command);
+		free(t_inp);
 		free(user_inp);
 		free(inp_data);
 		exit(state);
 	}
 	else if (n_token == 2)
 	{
-		args = _atoi(tokenized_command[1]);
+		args = _atoi(t_inp[1]);
 		if (args == -1)
 		{
 			print(name, STDERR_FILENO);
 			print(": 1: exit: Illegal number: ", STDERR_FILENO);
-			print(tokenized_command[1], STDERR_FILENO);
+			print(t_inp[1], STDERR_FILENO);
 			print("\n", STDERR_FILENO);
 			state = 2;
 		}
 		else
 		{
 			free(user_inp);
-			free(tokenized_command);
+			free(t_inp);
 			free(inp_data);
 			exit(args);
 		}
