@@ -18,7 +18,7 @@
 #define INPUT_PATH 3
 #define INV_INPUT -1
 
-#define min(x, y) (((x) < (y)) ? (x) : (y))
+
 
 /**
 *struct map - a struct
