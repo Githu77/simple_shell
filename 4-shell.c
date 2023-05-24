@@ -2,11 +2,17 @@
 
 
 /**
-*_strtok_r - creates tokens
-*@str: string in question
-*@delimeter: delimeter to tokenize
-*@s_ptr: pointer to track tokens
-*Return: next token
+*_strtok_r - tokenize
+*@str: string
+*@delimeter: delimeter
+*@s_ptr: pointer
+*Return: token
+*
+*
+*
+*
+*
+*
 *
 *
 *
@@ -44,9 +50,9 @@ char *_strtok_r(char *string, char *delim, char **save_ptr)
 }
 
 /**
-* _atoi - string to integer
+* _atoi - string - integer
 * @s: string
-* Return: int
+* Return: integer
 *
 *
 *
@@ -73,10 +79,14 @@ int _atoi(char *s)
 
 /**
 * _realloc - reallocates memory
-* @ptr: pointer to previous location
-* @size1: size of ptr
-* @size2: size of the new memory to be allocated
-* Return: pointer to address
+* @ptr: location
+* @size1: pointer size
+* @size2: new size
+* Return: pointer
+*
+*
+*
+*
 *
 *
 *
@@ -129,11 +139,14 @@ void ctrl_c_handler(int signum)
 }
 
 /**
- * remove_comment - removes/ignores everything after a '#' char
- * @input: input to be used
- *
- * Return: void
- */
+* remove_comment - delete comment
+* @input: input
+*
+*
+*
+*
+*
+*/
 void remove_comment(char *input)
 {
 	int i = 0;

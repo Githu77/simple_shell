@@ -1,13 +1,17 @@
 #include "shell.h"
 
 /**
- * tokenizer - tokenizes input and stores it into an array
- *@input_string: input to be parsed
- *@delim: delimiter to be used, needs to be one character string
- *
- *Return: array of tokens
- */
-
+* tokenizer - tokenizes input
+*@input_string: input
+*@delim: delimiter
+*Return: tokens
+*
+*
+*
+*
+*
+*
+*/
 char **tokenizer(char *input_string, char *delim)
 {
 	int num_delim = 0;
@@ -32,12 +36,16 @@ char **tokenizer(char *input_string, char *delim)
 }
 
 /**
- *print - prints a string to stdout
- *@string: string to be printed
- *@stream: stream to print out to
- *
- *Return: void, return nothing
- */
+*print - writes
+*@string: string
+*@stream: stream
+*
+*
+*
+*
+*
+*
+*/
 void print(char *string, int stream)
 {
 	int i = 0;
@@ -47,12 +55,16 @@ void print(char *string, int stream)
 }
 
 /**
- *remove_newline - removes new line from a string
- *@str: string to be used
- *
- *
- *Return: void
- */
+*remove_newline - deletes new line from a string
+*@str: string
+*
+*
+*
+*
+*
+*
+*
+*/
 
 void remove_newline(char *str)
 {
@@ -68,12 +80,16 @@ void remove_newline(char *str)
 }
 
 /**
- *_strcpy - copies a string to another buffer
- *@source: source to copy from
- *@dest: destination to copy to
- *
- * Return: void
- */
+*_strcpy - copies string
+*@source: source
+*@dest: destination
+*
+*
+*
+*
+*
+*
+*/
 
 void _strcpy(char *source, char *dest)
 {
@@ -85,12 +101,15 @@ void _strcpy(char *source, char *dest)
 }
 
 /**
- *_strlen - counts string length
- *@string: string to be counted
- *
- * Return: length of the string
- */
-
+*_strlen - counts
+*@string: string
+*
+*
+*
+*
+*
+*
+*/
 int _strlen(char *string)
 {
 	int len = 0;

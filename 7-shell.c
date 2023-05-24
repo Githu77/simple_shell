@@ -1,24 +1,17 @@
 #include "shell.h"
 
 /**
- * Auth: Emma Udeji
- * 		 Pericles Adjovi
- *
- * Description:
- * the extended functions for main.c
- */
-
-
-/** parse_command - determines the type of the command
- * @command: command to be parsed
- *
- * Return: constant representing the type of the command
- * Description -
- * 		 EXTERNAL_COMMAND (1) represents commands like /bin/ls
- *		 INTERNAL_COMMAND (2) represents commands like exit, env
- *		 PATH_COMMAND (3) represents commands found in the PATH like ls
- *		 INVALID_COMMAND (-1) represents invalid commands
- */
+*parse_command - checks command type
+*@command: string to be identified
+*Return: type of input
+*
+*
+*
+*
+*
+*
+*
+*/
 
 int parse_command(char *command)
 {
@@ -48,12 +41,17 @@ int parse_command(char *command)
 }
 
 /**
- * execute_command - executes a command based on it's type
- * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
- * @command_type: type of the command
- *
- * Return: void
- */
+*execute_command - executes inputs
+*@tokenized_command: required input form
+*@command_type: the type
+*
+*
+*
+*
+*
+*
+*
+*/
 void execute_command(char **tokenized_command, int command_type)
 {
 	void (*func)(char **command);
@@ -90,11 +88,17 @@ void execute_command(char **tokenized_command, int command_type)
 }
 
 /**
- * check_path - checks if a command is found in the PATH
- * @command: command to be used
- *
- * Return: path where the command is found in, NULL if not found
- */
+*
+*check_path - evaluates inputs presence in the PATH
+*@command: input used
+*Return: NULL
+*
+*
+*
+*
+*
+*
+*/
 char *check_path(char *command)
 {
 	char **path_array = NULL;
@@ -127,11 +131,17 @@ char *check_path(char *command)
 }
 
 /**
- * get_func - retrieves a function based on the command given and a mapping
- * @command: string to check against the mapping
- *
- * Return: pointer to the proper function, or null on fail
- */
+*get_func - gets particular functions
+*@command: command entered
+*Return: NULL or pointer
+*
+*
+*
+*
+*
+*
+*
+*/
 void (*get_func(char *command))(char **)
 {
 	int i;
@@ -148,11 +158,16 @@ void (*get_func(char *command))(char **)
 }
 
 /**
- * _getenv - gets the value of an environment variable
- * @name: name of the environment variable
- *
- * Return: the value of the variable as a string
- */
+*_getenv - gets values
+*@names: variable names
+*Return: NULL or string
+*
+*
+*
+*
+*
+*
+*/
 char *_getenv(char *name)
 {
 	char **my_environ;
