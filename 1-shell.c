@@ -143,12 +143,12 @@ function_map mapping[] = {
 {"env", env}, {"exit", quit}
 };
 
-while (x < 2)
+for (x = 0; x < 2; x++)
 {
 if (_strcmp(inp, mapping[x].command_name) == 0)
-return (mapping[x].function);
-x++;
+return (mapping[x].func);
 }
+return (NULL);
 return (NULL);
 }
 
@@ -166,29 +166,21 @@ return (NULL);
 */
 char *_getenv(char *names)
 {
-char **m_environment = environment;
+char **m_environment;
 char *p_ptr;
 char *n_cpy;
 
-while (*m_environment != NULL)
+for (m_environment = environment; *m_environment != NULL; m_environment++)
 {
-p_ptr = *m_environment;
-n_cpy = names;
-
-while (*p_ptr == *n_cpy)
+for (p_ptr = *m_environment, n_cpy = names;
+*p_ptr == *n_cpy; p_ptr++, n_cpy++)
 {
 if (*p_ptr == '=')
 break;
-p_ptr++;
-n_cpy++;
 }
-
 if ((*p_ptr == '=') && (*n_cpy == '\0'))
 return (p_ptr + 1);
-
-m_environment++;
 }
-
 return (NULL);
 }
 
