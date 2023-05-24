@@ -1,5 +1,5 @@
 #include "main.h"
-#include <stdlib.h>
+
 /**
 *ourShell - main function
 *@argc: arguments number
@@ -13,16 +13,15 @@
 *
 */
 
-int state  = 0;
 char *user_inp = NULL;
 char **inp_data = NULL;
 char *name = NULL;
+int state = 0;
 
-int ourShell(int argc __attribute__((unused)), char** argv)
-{	
+int ourShell(int argc __attribute__((unused)), char **argv)
+{
 	size_t y = 0;
-	int inp_type = 0;
-	int x;
+	int inp_type = 0, x;
 	char **this_inp = NULL;
 
 	signal(SIGINT, handle_signal);
@@ -40,7 +39,7 @@ int ourShell(int argc __attribute__((unused)), char** argv)
 		}
 		delete_inp(user_inp);
 		delete_comm(user_inp);
-		inp_data = create_tokens(user_inp, ",");
+		inp_data = create_tokens(user_inp, ";");
 
 		for (x = 0; inp_data[x] != NULL; x++)
 		{
@@ -59,3 +58,5 @@ int ourShell(int argc __attribute__((unused)), char** argv)
 	free(user_inp);
 	return (state);
 }
+
+
