@@ -18,8 +18,8 @@ char *user_inp = NULL;
 char **inp_data = NULL;
 char *name = NULL;
 
-int ourShell(int argc __attribute__((unused)), char** argv)
-{	
+int ourShell(int argc __attribute__((unused)), char **argv)
+{
 	size_t y = 0;
 	int inp_type = 0;
 	int x;

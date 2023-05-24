@@ -15,26 +15,26 @@
 
 void start(char **this_inp, int inp_type)
 {
-    pid_t PID;
+pid_t PID;
 
-    switch (inp_type)
-    {
-        case INPUT:
-        case INPUT_PATH:
-            PID = fork();
-            if (PID == 0)
-                run_inp(this_inp, inp_type);
-            else
-            {
-                waitpid(PID, &state, 0);
-                state >>= 8;
-            }
-            break;
-        
-        default:
-            run_inp(this_inp, inp_type);
-            break;
-    }
+switch (inp_type)
+{
+case INPUT:
+case INPUT_PATH:
+PID = fork();
+if (PID == 0)
+run_inp(this_inp, inp_type);
+else
+{
+waitpid(PID, &state, 0);
+state >>= 8;
+}
+break;
+
+default:
+run_inp(this_inp, inp_type);
+break;
+}
 }
 
 /**
@@ -50,46 +50,45 @@ void start(char **this_inp, int inp_type)
 *
 */
 
-void run_inp (char **tokenized_inp, int type_inp)
+void run_inp(char **tokenized_inp, int type_inp)
 {
-    void (*function) (char **inp);
+void (*function)(char **inp);
 
-    switch (type_inp)
-    {
-        case INPUT:
-            if (execve(tokenized_inp[0], tokenized_inp, NULL) == -1)
-            {
-                perror(_getenv("PWD"));
-                exit(2);
-            }
-            break;
-        
-        case INPUT_PATH:
-            if (execve(path_inp(tokenized_inp[0]), tokenized_inp, NULL) == -1)
-            {
-                perror(_getenv("PWD"));
-                exit(2);
-            }
-            break;
+switch (type_inp)
+{
+case INPUT:
+if (execve(tokenized_inp[0], tokenized_inp, NULL) == -1)
+{
+perror(_getenv("PWD"));
+exit(2);
+}
+break;
 
-        case IN_INPUT:
-            function = get_function(tokenized_inp[0]);
-            function(tokenized_inp);
-            break;
+case INPUT_PATH:
+if (execve(path_inp(tokenized_inp[0]), tokenized_inp, NULL) == -1)
+{
+perror(_getenv("PWD"));
+exit(2);
+}
+break;
 
-        case INV_INPUT:
-            print(name, STDERR_FILENO);
-            print(": 1: ", STDERR_FILENO);
-            print(tokenized_inp[0], STDERR_FILENO);
-            print(": not found\n", STDERR_FILENO);
-            state = 127;
-            break;
-    }
+case IN_INPUT:
+function = get_function(tokenized_inp[0]);
+function(tokenized_inp);
+break;
+
+case INV_INPUT:
+print(name, STDERR_FILENO);
+print(": 1: ", STDERR_FILENO);
+print(tokenized_inp[0], STDERR_FILENO);
+print(": not found\n", STDERR_FILENO);
+state = 127;
+break;
+}
 }
 
 
 /**
-*
 *path_inp - evaluates inputs presence in the PATH
 *@input: input used
 *Return: NULL
@@ -102,33 +101,33 @@ void run_inp (char **tokenized_inp, int type_inp)
 */
 char *path_inp(char *input)
 {
-	char **paths = NULL;
-	char *c1, *c2, *cp_path;
-	char *path = _getenv("PATH");
-	int x;
+char **paths = NULL;
+char *c1, *c2, *cp_path;
+char *path = _getenv("PATH");
+int x;
 
-	if (path == NULL || _strlen(path) == 0)
-		return (NULL);
-	cp_path = malloc(sizeof(*cp_path) * (_strlen(path) + 1));
-	_strcpy(path, cp_path);
-	paths = create_tokens(cp_path, ":");
-	for (x = 0; paths[x] != NULL; x++)
-	{
-		c2 = _strcat(paths[x], "/");
-		c1 = _strcat(c2, input);
-		if (access(c1, F_OK) == 0)
-		{
-			free(c2);
-			free(paths);
-			free(cp_path);
-			return (c1);
-		}
-		free(c1);
-		free(c2);
-	}
-	free(cp_path);
-	free(paths);
-	return (NULL);
+if (path == NULL || _strlen(path) == 0)
+return (NULL);
+cp_path = malloc(sizeof(*cp_path) * (_strlen(path) + 1));
+_strcpy(path, cp_path);
+paths = create_tokens(cp_path, ":");
+for (x = 0; paths[x] != NULL; x++)
+{
+c2 = _strcat(paths[x], "/");
+c1 = _strcat(c2, input);
+if (access(c1, F_OK) == 0)
+{
+free(c2);
+free(paths);
+free(cp_path);
+return (c1);
+}
+free(c1);
+free(c2);
+}
+free(cp_path);
+free(paths);
+return (NULL);
 }
 
 /**
@@ -145,18 +144,18 @@ char *path_inp(char *input)
 */
 void (*get_function(char *inp))(char **)
 {
-	int x = 0;
-	function_map mapping[] = {
-		{"env", env}, {"exit", quit}
-	};
+int x = 0;
+function_map mapping[] = {
+{"env", env}, {"exit", quit}
+};
 
-	while (x < 2)
-	{
-		if (_strcmp(inp, mapping[x].command_name) == 0)
-			return (mapping[x].function);
-		x++;
-	}
-	return (NULL);
+while (x < 2)
+{
+if (_strcmp(inp, mapping[x].command_name) == 0)
+return (mapping[x].function);
+x++;
+}
+return (NULL);
 }
 
 
@@ -173,29 +172,29 @@ void (*get_function(char *inp))(char **)
 */
 char *_getenv(char *names)
 {
-	char **m_environment = environment;
-	char *p_ptr;
-	char *n_cpy;
+char **m_environment = environment;
+char *p_ptr;
+char *n_cpy;
 
-	while (*m_environment != NULL)
-	{
-		p_ptr = *m_environment;
-		n_cpy = names;
+while (*m_environment != NULL)
+{
+p_ptr = *m_environment;
+n_cpy = names;
 
-		while (*p_ptr == *n_cpy)
-		{
-			if (*p_ptr == '=')
-				break;
-			p_ptr++;
-			n_cpy++;
-		}
+while (*p_ptr == *n_cpy)
+{
+if (*p_ptr == '=')
+break;
+p_ptr++;
+n_cpy++;
+}
 
-		if ((*p_ptr == '=') && (*n_cpy == '\0'))
-			return (p_ptr + 1);
+if ((*p_ptr == '=') && (*n_cpy == '\0'))
+return (p_ptr + 1);
 
-		m_environment++;
-	}
+m_environment++;
+}
 
-	return (NULL);
+return (NULL);
 }
 

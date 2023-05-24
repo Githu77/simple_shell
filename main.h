@@ -23,7 +23,7 @@
 /**
 *struct map - a struct
 *@command_name: command
-*@func: function
+*@function: function
 */
 
 typedef struct map
@@ -38,9 +38,9 @@ extern char **inp_data;
 extern char *name;
 extern int state;
 
-int ourShell(int argc __attribute__((unused)), char** argv);
+int ourShell(int argc __attribute__((unused)), char **argv);
 void start(char **this_inp, int inp_type);
-void run_inp (char **tokenized_inp, int type_inp);
+void run_inp(char **tokenized_inp, int type_inp);
 char *path_inp(char *input);
 void (*get_function(char *inp))(char **);
 char *_getenv(char *names);
