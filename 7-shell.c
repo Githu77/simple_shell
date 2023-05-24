@@ -108,7 +108,7 @@ char *check_path(char *command)
 
 	if (path == NULL || _strlen(path) == 0)
 		return (NULL);
-	path_cpy = malloc(sizeof(*p_cpy) * (_strlen(path) + 1));
+	p_cpy = malloc(sizeof(*p_cpy) * (_strlen(path) + 1));
 	_strcpy(path, p_cpy);
 	p_array = tokenizer(p_cpy, ":");
 	for (x = 0; p_array[x] != NULL; x++)
@@ -119,13 +119,13 @@ char *check_path(char *command)
 		{
 			free(t2);
 			free(p_array);
-			free(path_cpy);
+			free(p_cpy);
 			return (t);
 		}
 		free(t);
 		free(t2);
 	}
-	free(path_cpy);
+	free(p_cpy);
 	free(p_array);
 	return (NULL);
 }
