@@ -1,44 +1,61 @@
-#include "shell.h"
+#include "main.h"
 
 /**
- * main - entry point
- * @ac: arg count
- * @av: arg vector
- *
- * Return: 0 on success, 1 on error
- */
-int main(int ac, char **av)
+*ourShell - main function
+*@argc: arguments number
+*@argv: arguments array
+*Return: 0
+*
+*
+*
+*
+*
+*
+*/
+
+
+int ourShell(int argc __attribute__((unused)), char **argv)
 {
-	info_t info[] = { INFO_INIT };
-	int fd = 2;
+	char *user_inp = NULL;
+	char **inp_data = NULL;
+	char *name = NULL;
+	size_t y = 0;
+	int inp_type = 0, x, state  = 0;
+	char **this_inp = NULL;
 
-	asm ("mov %1, %0\n\t"
-		"add $3, %0"
-		: "=r" (fd)
-		: "r" (fd));
+	signal(SIGINT, handle_signal);
+	name = argv[0];
 
-	if (ac == 2)
+	while (1)
 	{
-		fd = open(av[1], O_RDONLY);
-		if (fd == -1)
+		handle_no_input();
+		print(" ($) ", STDOUT_FILENO);
+
+		if (getline(&user_inp, &y, stdin) == -1)
 		{
-			if (errno == EACCES)
-				exit(126);
-			if (errno == ENOENT)
-			{
-				_eputs(av[0]);
-				_eputs(": 0: Can't open ");
-				_eputs(av[1]);
-				_eputchar('\n');
-				_eputchar(BUF_FLUSH);
-				exit(127);
-			}
-			return (EXIT_FAILURE);
+			free(user_inp);
+			exit(state);
 		}
-		info->readfd = fd;
+		delete_inp(user_inp);
+		delete_comm(user_inp);
+		inp_data = create_tokens(user_inp, ";");
+
+		for (x = 0; inp_data[x] != NULL; x++)
+		{
+			this_inp = create_tokens(inp_data[x], " ");
+			if (this_inp[0] == NULL)
+			{
+				free(this_inp);
+				break;
+			}
+			inp_type = identify_inp(this_inp[0]);
+			start(this_inp, inp_type);
+			free(this_inp);
+		}
+		free(inp_data);
 	}
-	populate_env_list(info);
-	read_history(info);
-	hsh(info, av);
-	return (EXIT_SUCCESS);
+	free(user_inp);
+	return (state);
 }
+
+
