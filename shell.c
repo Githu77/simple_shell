@@ -22,8 +22,8 @@ int state = 0;
 
 int main(int argc __attribute__((unused)), char **argv)
 {
-	char **current_command = NULL;
-	int i, type_command = 0;
+	char **this_inp = NULL;
+	int i, inp_type = 0;
 	size_t n = 0;
 
 	signal(SIGINT, ctrl_c_handler);
@@ -43,16 +43,16 @@ int main(int argc __attribute__((unused)), char **argv)
 
 		for (i = 0; inp_data[i] != NULL; i++)
 		{
-			current_command = tokenizer(inp_data[i], " ");
-			if (current_command[0] == NULL)
+			this_inp = tokenizer(inp_data[i], " ");
+			if (this_inp[0] == NULL)
 			{
-				free(current_command);
+				free(this_inp);
 				break;
 			}
-			type_command = parse_command(current_command[0]);
+			inp_type = parse_command(this_inp[0]);
 
-			initializer(current_command, type_command);
-			free(current_command);
+			initializer(this_inp, inp_type);
+			free(this_inp);
 		}
 		free(inp_data);
 	}
