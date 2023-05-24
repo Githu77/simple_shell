@@ -13,11 +13,11 @@
 
 void env(char **tokenized_command __attribute__((unused)))
 {
-	int i;
+	int x;
 
-	for (i = 0; environ[i] != NULL; i++)
+	for (x = 0; environ[x] != NULL; x++)
 	{
-		print(environ[i], STDOUT_FILENO);
+		print(environ[x], STDOUT_FILENO);
 		print("\n", STDOUT_FILENO);
 	}
 }
@@ -35,21 +35,21 @@ void env(char **tokenized_command __attribute__((unused)))
 
 void quit(char **tokenized_command)
 {
-	int num_token = 0, arg;
+	int n_token = 0, args;
 
-	for (; tokenized_command[num_token] != NULL; num_token++)
+	for (; tokenized_command[n_token] != NULL; n_token++)
 		;
-	if (num_token == 1)
+	if (n_token == 1)
 	{
 		free(tokenized_command);
 		free(user_inp);
 		free(inp_data);
 		exit(state);
 	}
-	else if (num_token == 2)
+	else if (n_token == 2)
 	{
-		arg = _atoi(tokenized_command[1]);
-		if (arg == -1)
+		args = _atoi(tokenized_command[1]);
+		if (args == -1)
 		{
 			print(name, STDERR_FILENO);
 			print(": 1: exit: Illegal number: ", STDERR_FILENO);
@@ -62,7 +62,7 @@ void quit(char **tokenized_command)
 			free(user_inp);
 			free(tokenized_command);
 			free(inp_data);
-			exit(arg);
+			exit(args);
 		}
 	}
 	else
