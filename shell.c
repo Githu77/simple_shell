@@ -13,14 +13,15 @@
 *
 */
 
-
-int ourShell(int argc __attribute__((unused)), char **argv)
-{
 	char *user_inp = NULL;
 	char **inp_data = NULL;
 	char *name = NULL;
+	int state = 0;
+
+int ourShell(int argc __attribute__((unused)), char **argv)
+{
 	size_t y = 0;
-	int inp_type = 0, x, state  = 0;
+	int inp_type = 0, x;
 	char **this_inp = NULL;
 
 	signal(SIGINT, handle_signal);
