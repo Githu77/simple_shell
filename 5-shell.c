@@ -19,8 +19,8 @@ void initializer(char **current_command, int type_command)
 			execute_command(current_command, type_command);
 		else
 		{
-			waitpid(PID, &status, 0);
-			status >>= 8;
+			waitpid(PID, &state, 0);
+			state >>= 8;
 		}
 	}
 	else

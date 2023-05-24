@@ -14,14 +14,14 @@ void non_interactive(void)
 
 	if (!(isatty(STDIN_FILENO)))
 	{
-		while (getline(&line, &n, stdin) != -1)
+		while (getline(&user_inp, &n, stdin) != -1)
 		{
-			remove_newline(line);
-			remove_comment(line);
-			commands = tokenizer(line, ";");
-			for (i = 0; commands[i] != NULL; i++)
+			remove_newline(user_inp);
+			remove_comment(user_inp);
+			inp_data = tokenizer(user_inp, ";");
+			for (i = 0; inp_data[i] != NULL; i++)
 			{
-				current_command = tokenizer(commands[i], " ");
+				current_command = tokenizer(inp_data[i], " ");
 				if (current_command[0] == NULL)
 				{
 					free(current_command);
@@ -31,9 +31,9 @@ void non_interactive(void)
 				initializer(current_command, type_command);
 				free(current_command);
 			}
-			free(commands);
+			free(inp_data);
 		}
-		free(line);
+		free(user_inp);
 		exit(status);
 	}
 }
