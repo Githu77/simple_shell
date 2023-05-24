@@ -16,7 +16,7 @@
 int parse_command(char *command)
 {
 	int x;
-	char *internal_command[] = {"env", "exit", NULL};
+	char *inter_inp[] = {"env", "exit", NULL};
 	char *path = NULL;
 
 	for (x = 0; command[x] != '\0'; x++)
@@ -24,9 +24,9 @@ int parse_command(char *command)
 		if (command[x] == '/')
 			return (EXTERNAL_COMMAND);
 	}
-	for (x = 0; internal_command[x] != NULL; x++)
+	for (x = 0; inter_inp[x] != NULL; x++)
 	{
-		if (_strcmp(command, internal_command[x]) == 0)
+		if (_strcmp(command, inter_inp[x]) == 0)
 			return (INTERNAL_COMMAND);
 	}
 
