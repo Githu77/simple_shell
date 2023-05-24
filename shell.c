@@ -13,48 +13,49 @@
 *
 */
 
+char *name = NULL;
 
-int main(int argc __attribute__((unused)), char **argv) {
-    char **custom_commands = NULL;
-    char *custom_line = NULL;
-    char *custom_shell_name = NULL;
-    int custom_status = 0;
-    size_t custom_n = 0;
+int main(int argc __attribute__((unused)), char **argv)
+{
+	char *user_inp = NULL;
+	char **inp_data = NULL;
+	size_t y = 0;
+	int inp_type = 0, x, state  = 0;
+	char **this_inp = NULL;
 
-    // Assign shell name from command-line arguments
-    custom_shell_name = argv[0];
+	signal(SIGINT, handle_signal);
+	name = argv[0];
 
-    while (1) {
-        custom_non_interactive();
-        custom_print(" ($) ", 1); // Use file descriptor 1 for STDOUT
+	while (1)
+	{
+		handle_no_input();
+		print(" ($) ", STDOUT_FILENO);
 
-        if (custom_getline(&custom_line, &custom_n) == -1) {
-            custom_free(custom_line);
-            custom_exit(custom_status);
-        }
+		if (getline(&user_inp, &y, stdin) == -1)
+		{
+			free(user_inp);
+			exit(state);
+		}
+		delete_inp(user_inp);
+		delete_comm(user_inp);
+		inp_data = create_tokens(user_inp, ";");
 
-        custom_remove_newline(custom_line);
-        custom_remove_comment(custom_line);
-        custom_commands = custom_tokenizer(custom_line, ";");
-
-        for (int custom_i = 0; custom_commands[custom_i] != NULL; custom_i++) {
-            char **custom_current_command = custom_tokenizer(custom_commands[custom_i], " ");
-
-            if (custom_current_command[0] == NULL) {
-                custom_free(custom_current_command);
-                break;
-            }
-
-            int custom_type_command = custom_parse_command(custom_current_command[0]);
-
-            custom_initializer(custom_current_command, custom_type_command);
-            custom_free(custom_current_command);
-        }
-
-        custom_free(custom_commands);
-    }
-
-    custom_free(custom_line);
-    return custom_status;
+		for (x = 0; inp_data[x] != NULL; x++)
+		{
+			this_inp = create_tokens(inp_data[x], " ");
+			if (this_inp[0] == NULL)
+			{
+				free(this_inp);
+				break;
+			}
+			inp_type = identify_inp(this_inp[0]);
+			start(this_inp, inp_type);
+			free(this_inp);
+		}
+		free(inp_data);
+	}
+	free(user_inp);
+	return (state);
 }
+
 
