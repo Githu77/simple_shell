@@ -14,24 +14,24 @@
 *
 */
 
-int identify_inp(char *inp)
+int identify_inp(char *input)
 {
 	int x;
-	char *int_inp[] = {"env", "exit", NULL};
+	char *int_input[] = {"env", "exit", NULL};
 	char *path = NULL;
 
-	for (x = 0; inp[x] != '\0'; x++)
+	for (x = 0; input[x] != '\0'; x++)
 	{
-		if (inp[x] == '/')
+		if (input[x] == '/')
 			return (INPUT);
 	}
-	for (x = 0; int_inp[x] != NULL; x++)
+	for (x = 0; int_input[x] != NULL; x++)
 	{
-		if (_strcmp(inp, int_inp[x]) == 0)
+		if (_strcmp(input, int_input[x]) == 0)
 			return (IN_INPUT);
 	}
 
-	path = path_inp(inp);
+	path = path_inp(input);
 	if (path != NULL)
 	{
 		free(path);

@@ -15,17 +15,14 @@
 
 char *_strchr(const char *str, int ch)
 {
-    while (*str != '\0')
-    {
-        if (*str == ch)
-            return ((char *)str);
-        str++;
-    }
+	int x = 0;
 
-    if (ch == '\0')
-        return ((char *)str);
-
-    return (NULL);
+	for (; str[x] != ch && str[x] != '\0'; x++)
+		;
+	if (str[x] == ch)
+		return (str + x);
+	else
+		return (NULL);
 }
 
 /**
@@ -43,21 +40,21 @@ char *_strchr(const char *str, int ch)
 
 int _strcmp(const char *str1, const char *str2)
 {
-    while (*str1 != '\0' && *str2 != '\0')
-    {
-        if (*str1 != *str2)
-            return (*str1 - *str2);
-        str1++;
-        str2++;
-    }
+    int x = 0;
 
-    return (*str1 - *str2);
+	while (str1[x] != '\0')
+	{
+		if (str1[x] != str1[x])
+			break;
+		x++;
+	}
+	return (str1[i] - str2[i]);
 }
 
 /**
 *_strspn - length of first string
-*@str: string to check
-*@accept: string to use
+*@str1: string to check
+*@str2: string to use
 *Return: bytes numbers
 *
 *
@@ -66,32 +63,19 @@ int _strcmp(const char *str1, const char *str2)
 *
 */
 
-size_t _strspn(const char *str, const char *accept)
+int _strspn(char *str1, char *str2)
 {
-    size_t length = 0;
-    int is_match = 1;
-    const char *accept_ptr;
+	int x = 0;
+	int match = 0;
 
-    while (*str != '\0')
-    {
-        is_match = 0;
-        for (accept_ptr = accept; *accept_ptr != '\0'; accept_ptr++)
-        {
-            if (*str == *accept_ptr)
-            {
-                is_match = 1;
-                break;
-            }
-        }
-
-        if (is_match == 0)
-            return (length);
-
-        str++;
-        length++;
-    }
-
-    return (length);
+	while (str1[x] != '\0')
+	{
+		if (_strchr(str2, str1[x]) == NULL)
+			break;
+		match++;
+		x++;
+	}
+	return (match);
 }
 
 /**
