@@ -34,6 +34,6 @@ void non_interactive(void)
 			free(inp_data);
 		}
 		free(user_inp);
-		exit(status);
+		exit(state);
 	}
 }
