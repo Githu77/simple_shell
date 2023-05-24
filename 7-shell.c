@@ -101,32 +101,32 @@ void execute_command(char **tokenized_command, int command_type)
 */
 char *check_path(char *command)
 {
-	char **path_array = NULL;
-	char *temp, *temp2, *path_cpy;
+	char **p_array = NULL;
+	char *t, *t2, *p_cpy;
 	char *path = _getenv("PATH");
 	int x;
 
 	if (path == NULL || _strlen(path) == 0)
 		return (NULL);
-	path_cpy = malloc(sizeof(*path_cpy) * (_strlen(path) + 1));
-	_strcpy(path, path_cpy);
-	path_array = tokenizer(path_cpy, ":");
-	for (x = 0; path_array[x] != NULL; x++)
+	path_cpy = malloc(sizeof(*p_cpy) * (_strlen(path) + 1));
+	_strcpy(path, p_cpy);
+	p_array = tokenizer(p_cpy, ":");
+	for (x = 0; p_array[x] != NULL; x++)
 	{
-		temp2 = _strcat(path_array[x], "/");
-		temp = _strcat(temp2, command);
-		if (access(temp, F_OK) == 0)
+		t2 = _strcat(p_array[x], "/");
+		t = _strcat(t2, command);
+		if (access(t, F_OK) == 0)
 		{
-			free(temp2);
-			free(path_array);
+			free(t2);
+			free(p_array);
 			free(path_cpy);
-			return (temp);
+			return (t);
 		}
-		free(temp);
-		free(temp2);
+		free(t);
+		free(t2);
 	}
 	free(path_cpy);
-	free(path_array);
+	free(p_array);
 	return (NULL);
 }
 
