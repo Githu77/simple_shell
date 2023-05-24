@@ -106,14 +106,17 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * ctrl_c_handler - handles the signal raised by CTRL-C
- * @signum: signal number
- *
- * Return: void
- */
-void ctrl_c_handler(int signum)
+* handle_signal - handles signal
+* @num: number
+* Return: void
+*
+*
+*
+*
+*/
+void handle_signal(int num)
 {
-	if (signum == SIGINT)
+	if (num == SIGINT)
 		print("\n($) ", STDIN_FILENO);
 }
 

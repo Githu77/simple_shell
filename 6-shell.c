@@ -6,34 +6,34 @@
  * Return: void
  */
 
-void non_interactive(void)
+void handle_no_input(void)
 {
-	char **current_command = NULL;
-	int i, type_command = 0;
-	size_t n = 0;
+	char **this_inp = NULL;
+	int j, inp_type = 0;
+	size_t x = 0;
 
 	if (!(isatty(STDIN_FILENO)))
 	{
-		while (getline(&line, &n, stdin) != -1)
+		while (getline(&user_inp, &x, stdin) != -1)
 		{
-			remove_newline(line);
-			remove_comment(line);
-			commands = tokenizer(line, ";");
-			for (i = 0; commands[i] != NULL; i++)
+			delete_inp(user_inp);
+			delete_comm(user_inp);
+			inp_data = create_tokens(user_inp, ";");
+			for (j = 0; inp_data[j] != NULL; j++)
 			{
-				current_command = tokenizer(commands[i], " ");
-				if (current_command[0] == NULL)
+				this_inp = create_tokens(inp_data[j], " ");
+				if (this_inp[0] == NULL)
 				{
-					free(current_command);
+					free(this_inp);
 					break;
 				}
-				type_command = parse_command(current_command[0]);
-				initializer(current_command, type_command);
-				free(current_command);
+				inp_type = identify_inp(this_inp[0]);
+				start(this_inp, inp_type);
+				free(this_inp);
 			}
-			free(commands);
+			free(inp_data);
 		}
-		free(line);
-		exit(status);
+		free(user_inp);
+		exit(state);
 	}
 }
