@@ -51,7 +51,7 @@ void print(char *stri, int stre)
 	int x = 0;
 
 	for (; stri[x] != '\0'; x++)
-		write(stre, &stri[], 1);
+		write(stre, &stri[x], 1);
 }
 
 /**
@@ -96,8 +96,8 @@ void _strcpy(char *src, char *dst)
 	int x = 0;
 
 	for (; src[x] != '\0'; x++)
-		dest[x] = source[x];
-	dest[x] = '\0';
+		dst[x] = src[x];
+	dst[x] = '\0';
 }
 
 /**

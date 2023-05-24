@@ -16,7 +16,7 @@
 int parse_command(char *command)
 {
 	int x;
-	char *inter_input[] = {"env", "exit", NULL};
+	char *internal_command[] = {"env", "exit", NULL};
 	char *path = NULL;
 
 	for (x = 0; command[x] != '\0'; x++)
@@ -24,9 +24,9 @@ int parse_command(char *command)
 		if (command[x] == '/')
 			return (EXTERNAL_COMMAND);
 	}
-	for (x = 0; inter_input[x] != NULL; x++)
+	for (x = 0; internal_command[x] != NULL; x++)
 	{
-		if (_strcmp(command, inter_input[x]) == 0)
+		if (_strcmp(command, internal_command[x]) == 0)
 			return (INTERNAL_COMMAND);
 	}
 
@@ -101,32 +101,32 @@ void execute_command(char **tokenized_command, int command_type)
 */
 char *check_path(char *command)
 {
-	char **p_array = NULL;
-	char *c, *c1, *p_cpy;
+	char **path_array = NULL;
+	char *temp, *temp2, *path_cpy;
 	char *path = _getenv("PATH");
-	int x;
+	int i;
 
 	if (path == NULL || _strlen(path) == 0)
 		return (NULL);
-	p_cpy = malloc(sizeof(*p_cpy) * (_strlen(path) + 1));
-	_strcpy(path, p_cpy);
-	p_array = tokenizer(p_cpy, ":");
-	for (x = 0; p_array[x] != NULL; x++)
+	path_cpy = malloc(sizeof(*path_cpy) * (_strlen(path) + 1));
+	_strcpy(path, path_cpy);
+	path_array = tokenizer(path_cpy, ":");
+	for (i = 0; path_array[i] != NULL; i++)
 	{
-		c1 = _strcat(p_array[x], "/");
-		c = _strcat(c1, command);
-		if (access(c, F_OK) == 0)
+		temp2 = _strcat(path_array[i], "/");
+		temp = _strcat(temp2, command);
+		if (access(temp, F_OK) == 0)
 		{
-			free(c1);
-			free(p_array);
-			free(p_cpy);
-			return (c);
+			free(temp2);
+			free(path_array);
+			free(path_cpy);
+			return (temp);
 		}
-		free(c);
-		free(c1);
+		free(temp);
+		free(temp2);
 	}
-	free(p_cpy);
-	free(p_array);
+	free(path_cpy);
+	free(path_array);
 	return (NULL);
 }
 
@@ -144,15 +144,15 @@ char *check_path(char *command)
 */
 void (*get_func(char *command))(char **)
 {
-	int x;
+	int i;
 	function_map mapping[] = {
 		{"env", env}, {"exit", quit}
 	};
 
-	for (x = 0; x < 2; x++)
+	for (i = 0; i < 2; i++)
 	{
 		if (_strcmp(command, mapping[i].command_name) == 0)
-			return (mapping[x].func);
+			return (mapping[i].func);
 	}
 	return (NULL);
 }
