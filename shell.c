@@ -38,7 +38,7 @@ int ourShell(int argc __attribute__((unused)), char **argv)
 		}
 		delete_inp(user_inp);
 		delete_comm(user_inp);
-		inp_data = create_tokens(user_inp, ",");
+		inp_data = create_tokens(user_inp, ";");
 
 		for (x = 0; inp_data[x] != NULL; x++)
 		{

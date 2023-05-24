@@ -12,7 +12,7 @@
 #include <stdlib.h>
 
 
-/*constants*/
+
 #define INPUT 1
 #define IN_INPUT 2
 #define INPUT_PATH 3
