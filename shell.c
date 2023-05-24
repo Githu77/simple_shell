@@ -1,59 +1,61 @@
-#include "main.h"
-#include <stdlib.h>
+#include "shell.h"
+
+
+	char **commands = NULL;
+	char *line = NULL;
+	char *shell_name = NULL;
+	int status = 0;
+
 /**
-*ourShell - main function
-*@argc: arguments number
-*@argv: arguments array
-*Return: 0
-*
-*
-*
-*
-*
-*
-*/
+ * main - the main shell code
+ * @argc: number of arguments passed
+ * @argv: program arguments to be parsed
+ *
+ * applies the functions in utils and helpers
+ * implements EOF
+ * Prints error on Failure
+ * Return: 0 on success
+ */
 
 
-int ourShell(int argc __attribute__((unused)), char **argv)
+int main(int argc __attribute__((unused)), char **argv)
 {
-	char *user_inp = NULL;
-	char **inp_data = NULL;
-	char *name = NULL;
-	size_t y = 0;
-	int inp_type = 0, x, state  = 0;
-	char **this_inp = NULL;
+	char **current_command = NULL;
+	int i, type_command = 0;
+	size_t n = 0;
 
-	signal(SIGINT, handle_signal);
-	name = argv[0];
-
+	signal(SIGINT, ctrl_c_handler);
+	shell_name = argv[0];
 	while (1)
 	{
-		handle_no_input();
+		non_interactive();
 		print(" ($) ", STDOUT_FILENO);
-
-		if (getline(&user_inp, &y, stdin) == -1)
+		if (getline(&line, &n, stdin) == -1)
 		{
-			free(user_inp);
-			exit(state);
+			free(line);
+			exit(status);
 		}
-		delete_inp(user_inp);
-		delete_comm(user_inp);
-		inp_data = create_tokens(user_inp, ",");
+			remove_newline(line);
+			remove_comment(line);
+			commands = tokenizer(line, ";");
 
-		for (x = 0; inp_data[x] != NULL; x++)
+		for (i = 0; commands[i] != NULL; i++)
 		{
-			this_inp = create_tokens(inp_data[x], " ");
-			if (this_inp[0] == NULL)
+			current_command = tokenizer(commands[i], " ");
+			if (current_command[0] == NULL)
 			{
-				free(this_inp);
+				free(current_command);
 				break;
 			}
-			inp_type = identify_inp(this_inp[0]);
-			start(this_inp, inp_type);
-			free(this_inp);
+			type_command = parse_command(current_command[0]);
+
+			/* initializer -   */
+			initializer(current_command, type_command);
+			free(current_command);
 		}
-		free(inp_data);
+		free(commands);
 	}
-	free(user_inp);
-	return (state);
+	free(line);
+
+	return (status);
 }
