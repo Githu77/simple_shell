@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 /**
-* non_interactive - handles non_interactive mode
+* handle_no_input - handles non_interactive mode
 *
 *
 *

@@ -13,17 +13,17 @@
 
 void print(const char *str, int fd)
 {
-    const char *ptr = str;
+const char *ptr = str;
 
-    while (*ptr != '\0')
-    {
-        write(fd, ptr, 1);
-        ptr++;
-    }
+while (*ptr != '\0')
+{
+write(fd, ptr, 1);
+ptr++;
+}
 }
 
 /**
-*remove_newline - removes the new line
+*delete_inp - removes the new line
 *@str: string
 *
 *
@@ -34,17 +34,17 @@ void print(const char *str, int fd)
 
 void delete_inp(char *str)
 {
-    char *ptr = str;
+char *ptr = str;
 
-    while (*ptr != '\0')
-    {
-        if (*ptr == '\n')
-        {
-            *ptr = '\0';
-            break;
-        }
-        ptr++;
-    }
+while (*ptr != '\0')
+{
+if (*ptr == '\n')
+{
+*ptr = '\0';
+break;
+}
+ptr++;
+}
 }
 
 
@@ -64,21 +64,21 @@ void delete_inp(char *str)
 
 void _strcpy(char *dest, const char *src)
 {
-    char *ptr_dest = dest;
+char *ptr_dest = dest;
 
-    while (*src != '\0')
-    {
-        *ptr_dest = *src;
-        ptr_dest++;
-        src++;
-    }
+while (*src != '\0')
+{
+*ptr_dest = *src;
+ptr_dest++;
+src++;
+}
 
-    *ptr_dest = '\0';
+*ptr_dest = '\0';
 }
 
 
 /**
-*my_strlen - checks string length
+*_strlen - checks string length
 *@str: string in question
 *Return: length
 *
@@ -92,15 +92,15 @@ void _strcpy(char *dest, const char *src)
 
 size_t _strlen(const char *str)
 {
-    const char *ptr = str;
-    size_t length = 0;
+const char *ptr = str;
+size_t length = 0;
 
-    while (*ptr != '\0')
-    {
-        length++;
-        ptr++;
-    }
+while (*ptr != '\0')
+{
+length++;
+ptr++;
+}
 
-    return (length);
+return (length);
 }
 

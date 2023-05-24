@@ -16,7 +16,7 @@ char *_strtok_r(char *str, char *delimeter, char **s_ptr)
 {
 	char *f;
 
-	if (str== NULL)
+	if (str == NULL)
 		str = *s_ptr;
 
 	if (*str == '\0')
@@ -60,7 +60,7 @@ void handle_signal(int num)
 }
 
 /**
-* delete_comment - removes anything after "#"
+* delete_comm - removes anything after "#"
 * @input: input
 *
 *

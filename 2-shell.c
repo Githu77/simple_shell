@@ -44,7 +44,7 @@ int identify_inp(char *inp)
 /**
 *create_tokens - format tokens into array
 *@inputt: input used
-*@delimiter: character to tokenize
+*@delimeter: character to tokenize
 *Return: array
 *
 *
