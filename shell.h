@@ -35,10 +35,10 @@ typedef struct map
 } function_map;
 
 extern char **environ;
-extern char *line;
-extern char **commands;
-extern char *shell_name;
-extern int status;
+extern char *user_inp;
+extern char **inp_data;
+extern char *name;
+extern int state;
 
 /*helpers*/
 void print(char *, int);
