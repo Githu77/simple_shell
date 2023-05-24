@@ -56,7 +56,7 @@ int _strcspn(char *, char *);
 char *_strchr(char *, char);
 char *_strtok_r(char *, char *, char **);
 int _atoi(char *);
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void *_realloc(void *ptr, unsigned int size1, unsigned int size2);
 void ctrl_c_handler(int);
 void delete_comm(char *);
 int parse_command(char *);
@@ -67,7 +67,7 @@ char *_getenv(char *);
 void env(char **);
 void quit(char **);
 extern void non_interactive(void);
-extern void initializer(char **current_command, int type_command);
+extern void start(char **current_command, int type_command);
 
 #endif /*SHELL_H*/
 
