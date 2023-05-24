@@ -171,19 +171,19 @@ void (*get_func(char *command))(char **)
 char *_getenv(char *name)
 {
 	char **my_environ;
-	char *pair_ptr;
-	char *name_cpy;
+	char *p_ptr;
+	char *n_cpy;
 
 	for (my_environ = environ; *my_environ != NULL; my_environ++)
 	{
-		for (pair_ptr = *my_environ, name_cpy = name;
-		     *pair_ptr == *name_cpy; pair_ptr++, name_cpy++)
+		for (p_ptr = *my_environ, n_cpy = name;
+		     *p_ptr == *n_cpy; p_ptr++, n_cpy++)
 		{
-			if (*pair_ptr == '=')
+			if (*p_ptr == '=')
 				break;
 		}
-		if ((*pair_ptr == '=') && (*name_cpy == '\0'))
-			return (pair_ptr + 1);
+		if ((*p_ptr == '=') && (*n_cpy == '\0'))
+			return (p_ptr + 1);
 	}
 	return (NULL);
 }
