@@ -47,40 +47,39 @@ void start(char **this_inp, int inp_type)
 
 void run_inp(char **tokenized_inp, int type_inp)
 {
-void (*function)(char **inp);
+	void (*func)(char **command);
 
-switch (type_inp)
-{
-case INPUT:
-if (execve(tokenized_inp[0], tokenized_inp, NULL) == -1)
-{
-perror(_getenv("PWD"));
-exit(2);
+	if (type_inp == INPUT)
+	{
+		if (execve(tokenized_inp[0], tokenized_inp, NULL) == -1)
+		{
+			perror(_getenv("PWD"));
+			exit(2);
+		}
+	}
+	if (type_inp == INPUT_PATH)
+	{
+		if (execve(path_inp(tokenized_inp[0]), tokenized_inp, NULL) == -1)
+		{
+			perror(_getenv("PWD"));
+			exit(2);
+		}
+	}
+	if (type_inp == IN_INP)
+	{
+		function = get_function(tokenized_inp[0]);
+		function(tokenized_inp);
+	}
+	if (type_inp == INV_INP)
+	{
+		print(name, STDERR_FILENO);
+		print(": 1: ", STDERR_FILENO);
+		print(tokenized_inp[0], STDERR_FILENO);
+		print(": not found\n", STDERR_FILENO);
+		state = 127;
+	}
 }
-break;
 
-case INPUT_PATH:
-if (execve(path_inp(tokenized_inp[0]), tokenized_inp, NULL) == -1)
-{
-perror(_getenv("PWD"));
-exit(2);
-}
-break;
-
-case IN_INPUT:
-function = get_function(tokenized_inp[0]);
-function(tokenized_inp);
-break;
-
-case INV_INPUT:
-print(name, STDERR_FILENO);
-print(": 1: ", STDERR_FILENO);
-print(tokenized_inp[0], STDERR_FILENO);
-print(": not found\n", STDERR_FILENO);
-state = 127;
-break;
-}
-}
 
 
 /**
