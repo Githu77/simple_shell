@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
-*ourShell - main function
+*main - main function
 *@argc: arguments number
 *@argv: arguments array
 *Return: 0
