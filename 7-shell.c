@@ -104,16 +104,16 @@ char *check_path(char *command)
 	char **path_array = NULL;
 	char *temp, *temp2, *path_cpy;
 	char *path = _getenv("PATH");
-	int i;
+	int x;
 
 	if (path == NULL || _strlen(path) == 0)
 		return (NULL);
 	path_cpy = malloc(sizeof(*path_cpy) * (_strlen(path) + 1));
 	_strcpy(path, path_cpy);
 	path_array = tokenizer(path_cpy, ":");
-	for (i = 0; path_array[i] != NULL; i++)
+	for (x = 0; path_array[x] != NULL; x++)
 	{
-		temp2 = _strcat(path_array[i], "/");
+		temp2 = _strcat(path_array[x], "/");
 		temp = _strcat(temp2, command);
 		if (access(temp, F_OK) == 0)
 		{
@@ -144,15 +144,15 @@ char *check_path(char *command)
 */
 void (*get_func(char *command))(char **)
 {
-	int i;
+	int x;
 	function_map mapping[] = {
 		{"env", env}, {"exit", quit}
 	};
 
-	for (i = 0; i < 2; i++)
+	for (x = 0; x < 2; x++)
 	{
-		if (_strcmp(command, mapping[i].command_name) == 0)
-			return (mapping[i].func);
+		if (_strcmp(command, mapping[x].command_name) == 0)
+			return (mapping[x].func);
 	}
 	return (NULL);
 }
