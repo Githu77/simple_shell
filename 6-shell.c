@@ -6,7 +6,7 @@
  * Return: void
  */
 
-void handle_no_input()(void)
+void non_interactive(void)
 {
 	char **current_command = NULL;
 	int i, type_command = 0;
