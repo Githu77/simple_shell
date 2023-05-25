@@ -1,59 +1,10 @@
-#include "main.h"
+#include "shell.h"
 
 /**
-*print - prins to stdout
-*@str: to print
-*@fd: where to print to
-*
-*
-*
-*
-*/
-
-
-void print(const char *str, int fd)
-{
-const char *ptr = str;
-
-while (*ptr != '\0')
-{
-write(fd, ptr, 1);
-ptr++;
-}
-}
-
-/**
-*delete_inp - removes the new line
-*@str: string
-*
-*
-*
-*
-*
-*/
-
-void delete_inp(char *str)
-{
-char *ptr = str;
-
-while (*ptr != '\0')
-{
-if (*ptr == '\n')
-{
-*ptr = '\0';
-break;
-}
-ptr++;
-}
-}
-
-
-/**
-*_strcpy - copies string to another
-*@dest: destination
-*@src: source
-*
-*
+*_strcmp - compares strings
+*@str1: first sttring
+*@str2: second string
+*Return: difference
 *
 *
 *
@@ -62,26 +13,24 @@ ptr++;
 *
 */
 
-void _strcpy(char *dest, const char *src)
+int _strcmp(char *str1, char *str2)
 {
-char *ptr_dest = dest;
+	int x = 0;
 
-while (*src != '\0')
-{
-*ptr_dest = *src;
-ptr_dest++;
-src++;
+	while (str1[x] != '\0')
+	{
+		if (str1[x] != str2[x])
+			break;
+		x++;
+	}
+	return (str1[x] - str2[x]);
 }
-
-*ptr_dest = '\0';
-}
-
 
 /**
-*_strlen - checks string length
-*@str: string in question
-*Return: length
-*
+*_strcat - joins two strings
+*@dest: string to join to
+*@src: string to add
+*Return: pointer to new string
 *
 *
 *
@@ -89,18 +38,106 @@ src++;
 *
 *
 */
-
-size_t _strlen(const char *str)
+char *_strcat(char *dest, char *src)
 {
-const char *ptr = str;
-size_t length = 0;
+	char *n_string =  NULL;
+	int l_dest = _strlen(dest);
+	int l_source = _strlen(src);
 
-while (*ptr != '\0')
-{
-length++;
-ptr++;
+	n_string = malloc(sizeof(*n_string) * (l_dest + l_source + 1));
+	_strcpy(dest, n_string);
+	_strcpy(src, n_string + l_dest);
+	n_string[l_dest + l_source] = '\0';
+	return (n_string);
 }
 
-return (length);
+/**
+*_strspn - length of first string
+*@str: string to check
+*@accept: string to use
+*Return: bytes numbers
+*
+*
+*
+*
+*
+*/
+
+int _strspn(char *str1, char *str2)
+{
+	int x = 0;
+	int c = 0;
+
+	while (str1[x] != '\0')
+	{
+		if (_strchr(str2, str1[x]) == NULL)
+			break;
+		c++;
+		x++;
+	}
+	return (c);
 }
 
+/**
+*_strcspn - checks unique characters in str1
+*@str1: string to be searched
+*@str2: string to be used
+*Return: index at which a char in str1 exists in str2
+*
+*
+*
+*
+*
+ */
+
+
+
+int _strcspn(char *str1, char *str2)
+{
+	int l = 0, x;
+
+	for (x = 0; str1[x] != '\0'; x++)
+	{
+		if (_strchr(str2, str1[x]) != NULL)
+			break;
+		l++;
+	}
+	return (l);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+*_strchr - search for char
+*@s: string in question
+*@c: char in question
+*Return: position or NULL
+*
+*
+*
+*
+*
+*/
+
+
+char *_strchr(char *s, char c)
+{
+	int i = 0;
+
+	for (; s[i] != c && s[i] != '\0'; i++)
+		;
+	if (s[i] == c)
+		return (s + i);
+	else
+		return (NULL);
+}

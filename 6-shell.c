@@ -1,74 +1,43 @@
-#include "main.h"
-#include <stdlib.h>
+#include "shell.h"
 
 /**
-* quit - stops shell
-* @tokenized_inp: input
+* non_interactive - handles non_input
 *
 *
 *
 *
 *
 *
-*
-*/
+ */
 
-void quit(char **tokenized_inp)
+void handle_no_input(void)
 {
-	int nt = 0, arg;
+	char **cc = NULL;
+	int i, tc = 0;
+	size_t n = 0;
 
-	for (; tokenized_inp[nt] != NULL; nt++)
-		;
-	if (nt == 1)
+	if (!(isatty(STDIN_FILENO)))
 	{
-		free(tokenized_inp);
+		while (getline(&user_inp, &n, stdin) != -1)
+		{
+			delete_nl(user_inp);
+			delete_comm(user_inp);
+			inp_data = create_tokens(user_inp, ";");
+			for (i = 0; inp_data[i] != NULL; i++)
+			{
+				cc = create_tokens(inp_data[i], " ");
+				if (cc[0] == NULL)
+				{
+					free(cc);
+					break;
+				}
+				tc = identify_inp(cc[0]);
+				start(cc, tc);
+				free(cc);
+			}
+			free(inp_data);
+		}
 		free(user_inp);
-		free(inp_data);
 		exit(state);
 	}
-	else if (nt == 2)
-	{
-		arg = _atoi(tokenized_inp[1]);
-		if (arg == -1)
-		{
-			print(name, STDERR_FILENO);
-			print(": 1: exit: Illegal number: ", STDERR_FILENO);
-			print(tokenized_inp[1], STDERR_FILENO);
-			print("\n", STDERR_FILENO);
-			state = 2;
-		}
-		else
-		{
-			free(user_inp);
-			free(tokenized_inp);
-			free(inp_data);
-			exit(arg);
-		}
-	}
-	else
-		print("$: exit doesn't take more than one argument\n", STDERR_FILENO);
 }
-
-/**
-*env - prints environment
-*@tokenized_inp: input
-*
-*
-*
-*
-*
-*
-*
-*/
-
-void env(char **tokenized_inp __attribute__((unused)))
-{
-	int x;
-
-	for (x = 0; environment[x] != NULL; x++)
-	{
-		print(environment[x], STDOUT_FILENO);
-		print("\n", STDOUT_FILENO);
-	}
-}
-

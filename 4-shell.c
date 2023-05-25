@@ -1,38 +1,15 @@
-#include "main.h"
-#include <stdlib.h>
+#include "shell.h"
+
 
 /**
-*_strchr - search for char
-*@str: string in question
-*@ch: char in question
-*Return: position or NULL
+*_strtok_r - tokenize
+*@str: string
+*@delimeter: delimeter
+*@s_ptr: pointer
+*Return: token
 *
 *
 *
-*
-*
-*/
-
-char *_strchr(const char *str, int ch)
-{
-while (*str != '\0')
-{
-if (*str == ch)
-return ((char *)str);
-str++;
-}
-
-if (ch == '\0')
-return ((char *)str);
-
-return (NULL);
-}
-
-/**
-*_strcmp - compares strings
-*@str1: first sttring
-*@str2: second string
-*Return: difference
 *
 *
 *
@@ -40,65 +17,42 @@ return (NULL);
 *
 *
 */
-
-int _strcmp(const char *str1, const char *str2)
+char *_strtok_r(char *string, char *delim, char **save_ptr)
 {
-while (*str1 != '\0' && *str2 != '\0')
-{
-if (*str1 != *str2)
-return (*str1 - *str2);
-str1++;
-str2++;
-}
+	char *f;
 
-return (*str1 - *str2);
-}
+	if (string == NULL)
+		string = *save_ptr;
 
-/**
-*_strspn - length of first string
-*@str: string to check
-*@accept: string to use
-*Return: bytes numbers
-*
-*
-*
-*
-*
-*/
+	if (*string == '\0')
+	{
+		*save_ptr = string;
+		return (NULL);
+	}
 
-size_t _strspn(const char *str, const char *accept)
-{
-size_t length = 0;
-int is_match = 1;
-const char *accept_ptr;
+	string += _strspn(string, delim);
+	if (*string == '\0')
+	{
+		*save_ptr = string;
+		return (NULL);
+	}
 
-while (*str != '\0')
-{
-is_match = 0;
-for (accept_ptr = accept; *accept_ptr != '\0'; accept_ptr++)
-{
-if (*str == *accept_ptr)
-{
-is_match = 1;
-break;
-}
-}
+	f = string + _strcspn(string, delim);
+	if (*f == '\0')
+	{
+		*save_ptr = f;
+		return (string);
+	}
 
-if (is_match == 0)
-return (length);
-
-str++;
-length++;
-}
-
-return (length);
+	*f = '\0';
+	*save_ptr = f + 1;
+	return (string);
 }
 
 /**
-*_strcat - joins two strings
-*@dest: string to join to
-*@src: string to add
-*Return: pointer to new string
+* _atoi - string - integer
+* @s: string
+* Return: integer
 *
 *
 *
@@ -106,42 +60,110 @@ return (length);
 *
 *
 */
-
-char *_strcat(char *dest, char *src)
+int _atoi(char *s)
 {
-char *n_string =  NULL;
-int l_dest = _strlen(dest);
-int l_source = _strlen(src);
+	unsigned int x = 0;
 
-n_string = malloc(sizeof(*n_string) * (l_dest + l_source + 1));
-_strcpy(dest, n_string);
-_strcpy(src, n_string + l_dest);
-n_string[l_dest + l_source] = '\0';
-return (n_string);
+	do {
+		if (*s == '-')
+			return (-1);
+		else if ((*s < '0' || *s > '9') && *s != '\0')
+			return (-1);
+		else if (*s >= '0'  && *s <= '9')
+			x = (x * 10) + (*s - '0');
+		else if (x > 0)
+			break;
+	} while (*s++);
+	return (x);
 }
 
 /**
-*_strcspn - checks unique characters in str1
-*@str1: string to be searched
-*@str2: string to be used
-*Return: index at which a char in str1 exists in str2
+* _realloc - reallocates memory
+* @ptr: location
+* @size1: pointer size
+* @size2: new size
+* Return: pointer
+*
+*
+*
+*
 *
 *
 *
 *
 *
 */
-
-
-int _strcspn(char *str1, char *str2)
+void *_realloc(void *p, unsigned int size1, unsigned int size2)
 {
-int l = 0, i;
+	void *t_block;
+	unsigned int x;
 
-for (i = 0; str1[i] != '\0'; i++)
-{
-if (_strchr(str2, str1[i]) != NULL)
-break;
-l++;
+	if (p == NULL)
+	{
+		t_block = malloc(size2);
+		return (t_block);
+	}
+	else if (size2 == size1)
+		return (p);
+	else if (size2 == 0 && p != NULL)
+	{
+		free(p);
+		return (NULL);
+	}
+	else
+	{
+		t_block = malloc(size2);
+		if (t_block != NULL)
+		{
+			for (x = 0; x < min(size1, size2); x++)
+				*((char *)t_block + x) = *((char *)p + x);
+			free(p);
+			return (t_block);
+		}
+		else
+			return (NULL);
+
+	}
 }
-return (l);
+
+/**
+* ctrl_c_handler - handles signal
+* @signum: signal 
+*
+*
+*
+*
+*
+*
+
+* Return: void
+*/
+void ctrl_c_handler(int signum)
+{
+	if (signum == SIGINT)
+		print("\n($) ", STDIN_FILENO);
+}
+
+/**
+* remove_comment - delete comment
+* @input: input
+*
+*
+*
+*
+*
+*/
+void delete_comm(char *inp)
+{
+	int x = 0;
+
+	if (inp[x] == '#')
+		inp[x] = '\0';
+	while (inp[x] != '\0')
+	{
+		if (inp[x] == '#' && inp[x - 1] == ' ')
+			break;
+		x++;
+	}
+	inp[x] = '\0';
 }
