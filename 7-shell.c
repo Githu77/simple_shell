@@ -88,74 +88,47 @@ void run_inp(char **tc, int inp_type)
 }
 
 /**
-*
-*check_path - evaluates inputs presence in the PATH
-*@command: input used
-*Return: NULL
+* non_interactive - handles non_input
 *
 *
 *
 *
 *
 *
-*/
-char *check_path(char *inp)
-{
-	char **p_array = NULL;
-	char *t, *t2, *p_cpy;
-	char *path = _getenv("PATH");
-	int x;
+ */
 
-	if (path == NULL || _strlen(path) == 0)
-		return (NULL);
-	p_cpy = malloc(sizeof(*p_cpy) * (_strlen(path) + 1));
-	_strcpy(path, p_cpy);
-	p_array = create_tokens(p_cpy, ":");
-	for (x = 0; p_array[x] != NULL; x++)
+void handle_no_input(void)
+{
+	char **cc = NULL;
+	int i, tc = 0;
+	size_t n = 0;
+
+	if (!(isatty(STDIN_FILENO)))
 	{
-		t2 = _strcat(p_array[x], "/");
-		t = _strcat(t2, inp);
-		if (access(t, F_OK) == 0)
+		while (getline(&user_inp, &n, stdin) != -1)
 		{
-			free(t2);
-			free(p_array);
-			free(p_cpy);
-			return (t);
+			delete_nl(user_inp);
+			delete_comm(user_inp);
+			inp_data = create_tokens(user_inp, ";");
+			for (i = 0; inp_data[i] != NULL; i++)
+			{
+				cc = create_tokens(inp_data[i], " ");
+				if (cc[0] == NULL)
+				{
+					free(cc);
+					break;
+				}
+				tc = identify_inp(cc[0]);
+				start(cc, tc);
+				free(cc);
+			}
+			free(inp_data);
 		}
-		free(t);
-		free(t2);
+		free(user_inp);
+		exit(state);
 	}
-	free(p_cpy);
-	free(p_array);
-	return (NULL);
 }
 
-/**
-*get_func - gets particular functions
-*@command: command entered
-*Return: NULL or pointer
-*
-*
-*
-*
-*
-*
-*
-*/
-void (*get_function(char *inp))(char **)
-{
-	int x;
-	function_map mapping[] = {
-		{"env", env}, {"exit", quit}
-	};
-
-	for (x = 0; x < 2; x++)
-	{
-		if (_strcmp(inp, mapping[x].command_name) == 0)
-			return (mapping[x].function);
-	}
-	return (NULL);
-}
 
 /**
 *_getenv - gets values
