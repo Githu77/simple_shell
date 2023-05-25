@@ -51,7 +51,7 @@ int main(int argc __attribute__((unused)), char **argv)
 			}
 			inp_type = parse_command(this_inp[0]);
 
-			initializer(this_inp, inp_type);
+			start(this_inp, inp_type);
 			free(this_inp);
 		}
 		free(inp_data);

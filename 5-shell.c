@@ -12,7 +12,7 @@
 *
 */
 
-void initializer(char **current_command, int type_command)
+void start(char **this_inp, int type_command)
 {
 	pid_t PID;
 
@@ -20,7 +20,7 @@ void initializer(char **current_command, int type_command)
 	{
 		PID = fork();
 		if (PID == 0)
-			execute_command(current_command, type_command);
+			execute_command(this_inp, type_command);
 		else
 		{
 			waitpid(PID, &state, 0);
@@ -28,5 +28,5 @@ void initializer(char **current_command, int type_command)
 		}
 	}
 	else
-		execute_command(current_command, type_command);
+		execute_command(this_inp, type_command);
 }
