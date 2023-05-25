@@ -20,7 +20,7 @@ void start(char **this_inp, int inp_type)
 	{
 		PID = fork();
 		if (PID == 0)
-			execute_command(this_inp, inp_type);
+			run_inp(this_inp, inp_type);
 		else
 		{
 			waitpid(PID, &state, 0);
@@ -28,5 +28,5 @@ void start(char **this_inp, int inp_type)
 		}
 	}
 	else
-		execute_command(this_inp, inp_type);
+		run_inp(this_inp, inp_type);
 }
