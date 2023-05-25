@@ -74,7 +74,7 @@ void run_inp(char **tc, int inp_type)
 	}
 	if (inp_type == INTERNAL_COMMAND)
 	{
-		func = get_func(tc[0]);
+		func = get_function(tc[0]);
 		func(tc);
 	}
 	if (inp_type == INVALID_COMMAND)
@@ -99,7 +99,7 @@ void run_inp(char **tc, int inp_type)
 *
 *
 */
-char *check_path(char *command)
+char *check_path(char *inp)
 {
 	char **p_array = NULL;
 	char *t, *t2, *p_cpy;
@@ -114,7 +114,7 @@ char *check_path(char *command)
 	for (x = 0; p_array[x] != NULL; x++)
 	{
 		t2 = _strcat(p_array[x], "/");
-		t = _strcat(t2, command);
+		t = _strcat(t2, inp);
 		if (access(t, F_OK) == 0)
 		{
 			free(t2);
@@ -142,7 +142,7 @@ char *check_path(char *command)
 *
 *
 */
-void (*get_func(char *command))(char **)
+void (*get_function(char *inp))(char **)
 {
 	int x;
 	function_map mapping[] = {
@@ -151,8 +151,8 @@ void (*get_func(char *command))(char **)
 
 	for (x = 0; x < 2; x++)
 	{
-		if (_strcmp(command, mapping[x].command_name) == 0)
-			return (mapping[x].func);
+		if (_strcmp(inp, mapping[x].command_name) == 0)
+			return (mapping[x].function);
 	}
 	return (NULL);
 }
@@ -168,7 +168,7 @@ void (*get_func(char *command))(char **)
 *
 *
 */
-char *_getenv(char *name)
+char *_getenv(char *names)
 {
 	char **my_environ;
 	char *p_ptr;
@@ -176,7 +176,7 @@ char *_getenv(char *name)
 
 	for (my_environ = environ; *my_environ != NULL; my_environ++)
 	{
-		for (p_ptr = *my_environ, n_cpy = name;
+		for (p_ptr = *my_environ, n_cpy = names;
 		     *p_ptr == *n_cpy; p_ptr++, n_cpy++)
 		{
 			if (*p_ptr == '=')

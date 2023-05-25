@@ -23,8 +23,8 @@
 
 /**
 *struct map - struct
-*@command_name: command
-*@func: executable
+*@inp: command
+*@function: executable
 *
 *
 *
@@ -36,7 +36,7 @@
 typedef struct map
 {
 	char *command_name;
-	void (*func)(char **command);
+	void (*function)(char **inp);
 } function_map;
 
 extern char **environ;
@@ -62,7 +62,7 @@ void delete_comm(char *);
 int identify_inp(char *);
 void run_inp(char **, int);
 char *check_path(char *);
-void (*get_func(char *))(char **);
+void (*get_function(char *))(char **);
 char *_getenv(char *);
 void env(char **);
 void quit(char **);
