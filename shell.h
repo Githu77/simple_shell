@@ -1,8 +1,6 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include <string.h>
-#include <sys/types.h>
 #include <errno.h>
 #include <dirent.h>
 #include <signal.h>
@@ -39,12 +37,11 @@ typedef struct map
 	void (*function)(char **inp);
 } function_map;
 
-void delete_comm(char *);
-int identify_inp(char *);
-void env(char **);
-void quit(char **);
-extern void handle_no_input(void);
-extern void start(char **this_inp, int inp_type);
+extern char **environ;
+extern char *user_inp;
+extern char **inp_data;
+extern char *name;
+extern int state;
 void print(char *, int);
 char **create_tokens(char *, char *);
 void delete_nl(char *);
@@ -53,30 +50,23 @@ void _strcpy(char *, char *);
 int _strcmp(char *, char *);
 char *_strcat(char *, char *);
 int _strspn(char *, char *);
-extern char **environ;
-extern char *user_inp;
 int _strcspn(char *, char *);
 char *_strchr(char *, char);
 char *_strtok_r(char *, char *, char **);
 int _atoi(char *);
-extern char **inp_data;
-void print(char *, int);
-char **create_tokens(char *, char *);
-void delete_nl(char *);
-int _strlen(char *);
-extern char *name;
-extern int state;
-void _strcpy(char *, char *);
-int _strcmp(char *, char *);
+void *_realloc(void *p, unsigned int size1, unsigned int size2);
+void ctrl_c_handler(int);
+void delete_comm(char *);
+int identify_inp(char *);
 void run_inp(char **, int);
 char *check_path(char *);
 void (*get_function(char *))(char **);
 char *_getenv(char *);
-char *_strcat(char *, char *);
-int _strspn(char *, char *);
-void *_realloc(void *p, unsigned int size1, unsigned int size2);
-void ctrl_c_handler(int);
+void env(char **);
+void quit(char **);
+extern void handle_no_input(void);
+extern void start(char **this_inp, int inp_type);
 
-#endif
+#endif /*SHELL_H*/
 
 
