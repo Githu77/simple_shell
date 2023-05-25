@@ -10,10 +10,10 @@
 *
  */
 
-void non_interactive(void)
+void handle_no_input(void)
 {
-	char **current_command = NULL;
-	int i, type_command = 0;
+	char **cc = NULL;
+	int i, tc = 0;
 	size_t n = 0;
 
 	if (!(isatty(STDIN_FILENO)))
@@ -25,15 +25,15 @@ void non_interactive(void)
 			inp_data = create_tokens(user_inp, ";");
 			for (i = 0; inp_data[i] != NULL; i++)
 			{
-				current_command = create_tokens(inp_data[i], " ");
-				if (current_command[0] == NULL)
+				cc = create_tokens(inp_data[i], " ");
+				if (cc[0] == NULL)
 				{
-					free(current_command);
+					free(cc);
 					break;
 				}
-				type_command = parse_command(current_command[0]);
-				start(current_command, type_command);
-				free(current_command);
+				tc = parse_command(cc[0]);
+				start(cc, tc);
+				free(cc);
 			}
 			free(inp_data);
 		}

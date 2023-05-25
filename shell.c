@@ -30,7 +30,7 @@ int main(int argc __attribute__((unused)), char **argv)
 	name = argv[0];
 	while (1)
 	{
-		non_interactive();
+		handle_no_input();
 		print(" ($) ", STDOUT_FILENO);
 		if (getline(&user_inp, &n, stdin) == -1)
 		{

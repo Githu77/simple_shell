@@ -66,8 +66,8 @@ void (*get_func(char *))(char **);
 char *_getenv(char *);
 void env(char **);
 void quit(char **);
-extern void non_interactive(void);
-extern void start(char **this_inp, int type_command);
+extern void handle_no_input(void);
+extern void start(char **this_inp, int inp_type);
 
 #endif /*SHELL_H*/
 

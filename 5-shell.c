@@ -12,15 +12,15 @@
 *
 */
 
-void start(char **this_inp, int type_command)
+void start(char **this_inp, int inp_type)
 {
 	pid_t PID;
 
-	if (type_command == EXTERNAL_COMMAND || type_command == PATH_COMMAND)
+	if (inp_type == EXTERNAL_COMMAND || inp_type == PATH_COMMAND)
 	{
 		PID = fork();
 		if (PID == 0)
-			execute_command(this_inp, type_command);
+			execute_command(this_inp, inp_type);
 		else
 		{
 			waitpid(PID, &state, 0);
@@ -28,5 +28,5 @@ void start(char **this_inp, int type_command)
 		}
 	}
 	else
-		execute_command(this_inp, type_command);
+		execute_command(this_inp, inp_type);
 }
