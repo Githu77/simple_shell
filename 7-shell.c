@@ -13,24 +13,24 @@
 *
 */
 
-int parse_command(char *command)
+int identify_inp(char *inp)
 {
 	int x;
 	char *inter_inp[] = {"env", "exit", NULL};
 	char *path = NULL;
 
-	for (x = 0; command[x] != '\0'; x++)
+	for (x = 0; inp[x] != '\0'; x++)
 	{
-		if (command[x] == '/')
+		if (inp[x] == '/')
 			return (EXTERNAL_COMMAND);
 	}
 	for (x = 0; inter_inp[x] != NULL; x++)
 	{
-		if (_strcmp(command, inter_inp[x]) == 0)
+		if (_strcmp(inp, inter_inp[x]) == 0)
 			return (INTERNAL_COMMAND);
 	}
 
-	path = check_path(command);
+	path = check_path(inp);
 	if (path != NULL)
 	{
 		free(path);

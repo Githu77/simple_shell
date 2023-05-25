@@ -31,7 +31,7 @@ void handle_no_input(void)
 					free(cc);
 					break;
 				}
-				tc = parse_command(cc[0]);
+				tc = identify_inp(cc[0]);
 				start(cc, tc);
 				free(cc);
 			}

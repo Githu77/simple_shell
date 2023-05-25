@@ -49,7 +49,7 @@ int main(int argc __attribute__((unused)), char **argv)
 				free(this_inp);
 				break;
 			}
-			inp_type = parse_command(this_inp[0]);
+			inp_type = identify_inp(this_inp[0]);
 
 			start(this_inp, inp_type);
 			free(this_inp);

@@ -59,7 +59,7 @@ int _atoi(char *);
 void *_realloc(void *p, unsigned int size1, unsigned int size2);
 void ctrl_c_handler(int);
 void delete_comm(char *);
-int parse_command(char *);
+int identify_inp(char *);
 void execute_command(char **, int);
 char *check_path(char *);
 void (*get_func(char *))(char **);
