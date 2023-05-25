@@ -1,29 +1,34 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef SHELL_H
+#define SHELL_H
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include <errno.h>
+#include <dirent.h>
 #include <signal.h>
-#include <stddef.h>
 #include <stdio.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 
 
-#define INPUT 1
-#define IN_INPUT 2
-#define INPUT_PATH 3
-#define INV_INPUT -1
+#define EXTERNAL_COMMAND 1
+#define INTERNAL_COMMAND 2
+#define PATH_COMMAND 3
+#define INVALID_COMMAND -1
 
 #define min(x, y) (((x) < (y)) ? (x) : (y))
 
 /**
-*struct map - a struct
-*@command_name: command
-*@function: function
+*struct map - struct
+*@inp: command
+*@function: executable
+*
+*
+*
+*
+*
+*
 */
 
 typedef struct map
@@ -32,36 +37,36 @@ typedef struct map
 	void (*function)(char **inp);
 } function_map;
 
-extern char **environment;
+extern char **environ;
 extern char *user_inp;
 extern char **inp_data;
 extern char *name;
 extern int state;
-
-int ourShell(int argc __attribute__((unused)), char **argv);
-void start(char **this_inp, int inp_type);
-void run_inp(char **tokenized_inp, int type_inp);
-char *path_inp(char *input);
-void (*get_function(char *inp))(char **);
-char *_getenv(char *names);
-int identify_inp(char *inp);
-char **create_tokens(char *inputt, char *delimeter);
-void print(const char *str, int fd);
-void delete_inp(char *str);
-void _strcpy(char *dest, const char *src);
-size_t _strlen(const char *str);
-char *_strtok_r(char *str, char *delimeter, char **s_ptr);
-void handle_signal(int num);
-void delete_comm(char *input);
-int _atoi(char *s);
-void *_realloc(void *ptr, unsigned int size1, unsigned int size2);
-char *_strchr(const char *str, int ch);
-int _strcmp(const char *str1, const char *str2);
-size_t _strspn(const char *str, const char *accept);
-char *_strcat(char *dest, char *src);
-int _strcspn(char *str1, char *str2);
-void quit(char **tokenized_inp);
+void print(char *, int);
+char **create_tokens(char *, char *);
+void delete_nl(char *);
+int _strlen(char *);
+void _strcpy(char *, char *);
+int _strcmp(char *, char *);
+char *_strcat(char *, char *);
+int _strspn(char *, char *);
+int _strcspn(char *, char *);
+char *_strchr(char *, char);
+char *_strtok_r(char *, char *, char **);
+int _atoi(char *);
+void *_realloc(void *p, unsigned int size1, unsigned int size2);
+void ctrl_c_handler(int);
+void delete_comm(char *);
+int identify_inp(char *);
+void run_inp(char **, int);
+char *check_path(char *);
+void (*get_function(char *))(char **);
+char *_getenv(char *);
 void env(char **);
-void handle_no_input(void);
+void quit(char **);
+extern void handle_no_input(void);
+extern void start(char **this_inp, int inp_type);
 
-#endif
+#endif /*SHELL_H*/
+
+

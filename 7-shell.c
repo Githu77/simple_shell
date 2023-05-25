@@ -1,92 +1,50 @@
-#include "main.h"
-#include <stdlib.h>
+#include "shell.h"
 
 /**
-*_strtok_r - creates tokens
-*@str: string in question
-*@delimeter: delimeter to tokenize
-*@s_ptr: pointer to track tokens
-*Return: next token
+*parse_command - checks command type
+*@command: string to be identified
+*Return: type of input
+*
+*
+*
+*
 *
 *
 *
 */
 
-char *_strtok_r(char *str, char *delimeter, char **s_ptr)
+int identify_inp(char *inp)
 {
-	char *f;
+	int x;
+	char *inter_inp[] = {"env", "exit", NULL};
+	char *path = NULL;
 
-	if (str == NULL)
-		str = *s_ptr;
-
-	if (*str == '\0')
+	for (x = 0; inp[x] != '\0'; x++)
 	{
-		*s_ptr = str;
-		return (NULL);
+		if (inp[x] == '/')
+			return (EXTERNAL_COMMAND);
+	}
+	for (x = 0; inter_inp[x] != NULL; x++)
+	{
+		if (_strcmp(inp, inter_inp[x]) == 0)
+			return (INTERNAL_COMMAND);
 	}
 
-	str += _strspn(str, delimeter);
-	if (*str == '\0')
+	path = check_path(inp);
+	if (path != NULL)
 	{
-		*s_ptr = str;
-		return (NULL);
+		free(path);
+		return (PATH_COMMAND);
 	}
 
-	f = str + _strcspn(str, delimeter);
-	if (*f == '\0')
-	{
-		*s_ptr = f;
-		return (str);
-	}
-
-	*f = '\0';
-	*s_ptr = f + 1;
-	return (str);
+	return (INVALID_COMMAND);
 }
 
 /**
-* handle_signal - handles signal
-* @num: number
-* Return: void
+*execute_command - executes inputs
+*@tokenized_command: required input form
+*@command_type: the type
 *
-*
-*
-*
-*/
-void handle_signal(int num)
-{
-	if (num == SIGINT)
-		print("\n($) ", STDIN_FILENO);
-}
-
-/**
-* delete_comm - removes anything after "#"
-* @input: input
-*
-*
-*
-*
-*
-*/
-void delete_comm(char *input)
-{
-	int x = 0;
-
-	if (input[x] == '#')
-		input[x] = '\0';
-	while (input[x] != '\0')
-	{
-		if (input[x] == '#' && input[x - 1] == ' ')
-			break;
-		x++;
-	}
-	input[x] = '\0';
-}
-
-/**
-* _atoi - string to integer
-* @s: string
-* Return: int
 *
 *
 *
@@ -94,65 +52,140 @@ void delete_comm(char *input)
 *
 *
 */
-int _atoi(char *s)
+void run_inp(char **tc, int inp_type)
 {
-	unsigned int x = 0;
+	void (*func)(char **command);
 
-	do {
-		if (*s == '-')
-			return (-1);
-		else if ((*s < '0' || *s > '9') && *s != '\0')
-			return (-1);
-		else if (*s >= '0'  && *s <= '9')
-			x = (x * 10) + (*s - '0');
-		else if (x > 0)
-			break;
-	} while (*s++);
-	return (x);
-}
-
-
-/**
-* _realloc - reallocates memory
-* @ptr: pointer to previous location
-* @size1: size of ptr
-* @size2: size of the new memory to be allocated
-* Return: pointer to address
-*
-*
-*
-*
-*
-*/
-void *_realloc(void *ptr, unsigned int size1, unsigned int size2)
-{
-	void *t_block;
-	unsigned int x;
-
-	if (ptr == NULL)
+	if (inp_type == EXTERNAL_COMMAND)
 	{
-		t_block = malloc(size2);
-		return (t_block);
-	}
-	else if (size2 == size1)
-		return (ptr);
-	else if (size2 == 0 && ptr != NULL)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	else
-	{
-		t_block = malloc(size2);
-		if (t_block != NULL)
+		if (execve(tc[0], tc, NULL) == -1)
 		{
-			for (x = 0; x < min(size1, size2); x++)
-				*((char *)t_block + x) = *((char *)ptr + x);
-			free(ptr);
-			return (t_block);
+			perror(_getenv("PWD"));
+			exit(2);
 		}
-		else
-			return (NULL);
-
+	}
+	if (inp_type == PATH_COMMAND)
+	{
+		if (execve(check_path(tc[0]), tc, NULL) == -1)
+		{
+			perror(_getenv("PWD"));
+			exit(2);
+		}
+	}
+	if (inp_type == INTERNAL_COMMAND)
+	{
+		func = get_function(tc[0]);
+		func(tc);
+	}
+	if (inp_type == INVALID_COMMAND)
+	{
+		print(name, STDERR_FILENO);
+		print(": 1: ", STDERR_FILENO);
+		print(tc[0], STDERR_FILENO);
+		print(": not found\n", STDERR_FILENO);
+		state = 127;
 	}
 }
+
+
+/**
+*
+*check_path - evaluates inputs presence in the PATH
+*@command: input used
+*Return: NULL
+*
+*
+*
+*
+*
+*
+*/
+char *check_path(char *inp)
+{
+	char **p_array = NULL;
+	char *t, *t2, *p_cpy;
+	char *path = _getenv("PATH");
+	int x;
+
+	if (path == NULL || _strlen(path) == 0)
+		return (NULL);
+	p_cpy = malloc(sizeof(*p_cpy) * (_strlen(path) + 1));
+	_strcpy(path, p_cpy);
+	p_array = create_tokens(p_cpy, ":");
+	for (x = 0; p_array[x] != NULL; x++)
+	{
+		t2 = _strcat(p_array[x], "/");
+		t = _strcat(t2, inp);
+		if (access(t, F_OK) == 0)
+		{
+			free(t2);
+			free(p_array);
+			free(p_cpy);
+			return (t);
+		}
+		free(t);
+		free(t2);
+	}
+	free(p_cpy);
+	free(p_array);
+	return (NULL);
+}
+
+/**
+*get_func - gets particular functions
+*@command: command entered
+*Return: NULL or pointer
+*
+*
+*
+*
+*
+*
+*
+*/
+void (*get_function(char *inp))(char **)
+{
+	int x;
+	function_map mapping[] = {
+		{"env", env}, {"exit", quit}
+	};
+
+	for (x = 0; x < 2; x++)
+	{
+		if (_strcmp(inp, mapping[x].command_name) == 0)
+			return (mapping[x].function);
+	}
+	return (NULL);
+}
+
+/**
+*_getenv - gets values
+*@names: variable names
+*Return: NULL or string
+*
+*
+*
+*
+*
+*
+*/
+char *_getenv(char *names)
+{
+	char **my_environ;
+	char *p_ptr;
+	char *n_cpy;
+
+	for (my_environ = environ; *my_environ != NULL; my_environ++)
+	{
+		for (p_ptr = *my_environ, n_cpy = names;
+		     *p_ptr == *n_cpy; p_ptr++, n_cpy++)
+		{
+			if (*p_ptr == '=')
+				break;
+		}
+		if ((*p_ptr == '=') && (*n_cpy == '\0'))
+			return (p_ptr + 1);
+	}
+	return (NULL);
+}
+

@@ -1,11 +1,10 @@
-#include "main.h"
-#include <stdlib.h>
+#include "shell.h"
 
 /**
-*identify_inp - checks command type
-*@inp: string to be identified
-*Return: type of input
-*
+* create_tokens - tokenizes input
+*@input_string: input
+*@delim: delimiter
+*Return: tokens
 *
 *
 *
@@ -13,39 +12,33 @@
 *
 *
 */
-
-int identify_inp(char *inp)
+char **create_tokens(char *inp_str, char *delim)
 {
-	int x;
-	char *int_inp[] = {"env", "exit", NULL};
-	char *path = NULL;
+	int delim_n = 0;
+	char **av = NULL;
+	char *tk = NULL;
+	char *s_ptr = NULL;
 
-	for (x = 0; inp[x] != '\0'; x++)
-	{
-		if (inp[x] == '/')
-			return (INPUT);
-	}
-	for (x = 0; int_inp[x] != NULL; x++)
-	{
-		if (_strcmp(inp, int_inp[x]) == 0)
-			return (IN_INPUT);
-	}
+	tk = _strtok_r(inp_str, delim, &s_ptr);
 
-	path = path_inp(inp);
-	if (path != NULL)
+	while (tk != NULL)
 	{
-		free(path);
-		return (INPUT_PATH);
+		av = _realloc(av, sizeof(*av) * delim_n, sizeof(*av) * (delim_n + 1));
+		av[delim_n] = tk;
+		tk = _strtok_r(NULL, delim, &s_ptr);
+		delim_n++;
 	}
 
-	return (INV_INPUT);
+	av = _realloc(av, sizeof(*av) * delim_n, sizeof(*av) * (delim_n + 1));
+	av[delim_n] = NULL;
+
+	return (av);
 }
 
 /**
-*create_tokens - format tokens into array
-*@inputt: input used
-*@delimeter: character to tokenize
-*Return: array
+*print - writes
+*@stri: string
+*@stre: stream
 *
 *
 *
@@ -53,25 +46,77 @@ int identify_inp(char *inp)
 *
 *
 */
-char **create_tokens(char *inputt, char *delimeter)
+void print(char *stri, int stre)
 {
-	int delim = 0;
-	char **av = NULL;
-	char *token = NULL;
-	char *s_ptr = NULL;
+	int x = 0;
 
-	token = _strtok_r(inputt, delimeter, &s_ptr);
+	for (; stri[x] != '\0'; x++)
+		write(stre, &stri[x], 1);
+}
 
-	while (token != NULL)
+/**
+*remove_newline - deletes new line from a string
+*@str: string
+*
+*
+*
+*
+*
+*
+*
+*/
+
+void delete_nl(char *str)
+{
+	int x = 0;
+
+	while (str[x] != '\0')
 	{
-		av = _realloc(av, sizeof(*av) * delim, sizeof(*av) * (delim + 1));
-		av[delim] = token;
-		token = _strtok_r(NULL, delimeter, &s_ptr);
-		delim++;
+		if (str[x] == '\n')
+			break;
+		x++;
 	}
+	str[x] = '\0';
+}
 
-	av = _realloc(av, sizeof(*av) * delim, sizeof(*av) * (delim + 1));
-	av[delim] = NULL;
+/**
+*_strcpy - copies string
+*@src: source
+*@dst: destination
+*
+*
+*
+*
+*
+*
+*/
 
-	return (av);
+void _strcpy(char *src, char *dst)
+{
+	int x = 0;
+
+	for (; src[x] != '\0'; x++)
+		dst[x] = src[x];
+	dst[x] = '\0';
+}
+
+/**
+*_strlen - counts
+*@str: string
+*
+*
+*
+*
+*
+*
+*/
+int _strlen(char *str)
+{
+	int l= 0;
+
+	if (str == NULL)
+		return (l);
+	for (; str[l] != '\0'; l++)
+		;
+	return (l);
 }
